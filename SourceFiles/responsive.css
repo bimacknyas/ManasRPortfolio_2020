@@ -329,8 +329,9 @@ custom - media screen and (max-width: 1366px) End
 	}
 
 	.header-section nav.main-nav ul.alternative-menu {
-		display: inline-block;
+		display: block;
 	}
+	.nav-wrapper .wrapStage.widthChg{display: block;}
 	.header-section nav.main-nav ul.alternative-menu > li.side-menu-btn a {
 		height: 80px;
 		line-height: 80px;
