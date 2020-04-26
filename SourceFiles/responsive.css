@@ -95,7 +95,7 @@ custom - media screen and (max-width: 1366px) Start
 	}
 
 	.aboutme-section ul.service-list li {
-		width: 165px;
+		width: 207px;
 		height: 175px;
 		padding: 15px;
 	}
@@ -111,7 +111,7 @@ custom - media screen and (max-width: 1366px) Start
 	}
 
 	.experience-left {
-		padding: 60px 30px;
+		padding: 0px;
 	}
 	.experience-right .achivement {
 		padding: 37px 25px 30px 30px;
@@ -594,7 +594,7 @@ custom - media screen and (max-width: 1366px) End
 		display: none;
 	}
 	.professional-skills-area ul.skills-tab li.tag-item {
-		width: 50%;
+		width: 30%;
 	}
 	#graphicdesign, #photography, #technology, #design, #webdevelopment, #application {
 		padding: 30px 30px;
