@@ -523,6 +523,7 @@ custom - media screen and (max-width: 1366px) End
 		font-size: 24px;
 	}
 
+
 }
 
 /* ------------------------------------------------------------------------------------------
@@ -672,6 +673,7 @@ custom - media screen and (max-width: 1366px) End
 	body.clearfix.dark-version nav.main-nav ul > li > a:hover {
 		background-color: transparent !important;
 	}
+	.modal{width: 90%}
 
 }
 

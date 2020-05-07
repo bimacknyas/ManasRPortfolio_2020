@@ -2207,8 +2207,8 @@ body.clearfix.chooser {
     width: 45%;
 }
 }
-.modal{max-height: 80%; width: 75%; background-color: #fff;}
-.modal.modal-fixed-footer {height: 80%;}
+.modal{top: 5% !important; max-height: 90%; width: 75%; background-color: #fff;}
+.modal.modal-fixed-footer {height: 90%;}
 
 
 /*//////// Logo Animations ////////*/
@@ -2828,5 +2828,22 @@ path {
   -webkit-animation-delay:1.2s;
   -moz-animation-delay:1.2s;
   animation-delay:1.2s;
-
+}
+.wrkpcBck{
+  background: url(WorkPlace.svg);
+  background-size: 100%;
+  width: 100%;
+  height: 7707px;
+}
+.HOSBck{
+  background: url(HOS.svg);
+  background-size: 100%;
+  width: 100%;
+  height: 7860px;
+}
+.GamePlayBck{
+  background: url(GamePlay.svg);
+  background-size: 100%;
+  width: 100%;
+  height: 7000px;
 }

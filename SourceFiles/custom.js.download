@@ -3,9 +3,9 @@
 
 
   $(".button-collapse").sideNav();
-  
-  
-  
+
+
+
   //Single page scroll js
 	$('.hello_single_index_menu1 ul li a').on('click' , function(e){
 	  $('.hello_single_index_menu1 ul li').removeClass('active');
@@ -17,7 +17,7 @@
 	   scrollTop: targetHeight
 	  }, 1000);
 	});
-	
+
 	$(window).scroll(function() {
 	  var windscroll = $(window).scrollTop();
 	  var target = $('.hello_single_index_menu1 ul li');
@@ -34,7 +34,7 @@
 	  }
 
 	});
-  
+
   //Single page scroll js
 	$('.hello_single_index_menu2 ul li a').on('click' , function(e){
 	  $('.hello_single_index_menu2 ul li').removeClass('active');
@@ -46,7 +46,7 @@
 	   scrollTop: targetHeight
 	  }, 1000);
 	});
-	
+
 	$(window).scroll(function() {
 	  var windscroll = $(window).scrollTop();
 	  var target = $('.hello_single_index_menu2 ul li');
@@ -64,7 +64,7 @@
 
 	});
 
-	
+
 	//Single page scroll js
 	$('.hello_single_index_menu3 ul li a').on('click' , function(e){
 	  $('.hello_single_index_menu3 ul li').removeClass('active');
@@ -76,7 +76,7 @@
 	   scrollTop: targetHeight
 	  }, 1000);
 	});
-	
+
 	$(window).scroll(function() {
 	  var windscroll = $(window).scrollTop();
 	  var target = $('.hello_single_index_menu3 ul li');
@@ -99,7 +99,7 @@
 
 //----------------------- MENU FIXED JS -----------------------//
 		$(window).scroll(function(){
-		var window_top = $(window).scrollTop() + 1; 
+		var window_top = $(window).scrollTop() + 1;
 		if (window_top > 50) {
 			$('.responsive_menu_fixed').addClass('menu_fixed');
 		} else {
@@ -107,25 +107,25 @@
 		}
 	});
 
-	
-	
+
+
 	$(window).scroll(function(event) {
-	
+
     {
-        var scroll = $(window).scrollTop(); 
+        var scroll = $(window).scrollTop();
         if(scroll > 50)
-        { 
+        {
             $(".hello_menu_fixed_main_wrapper").fadeIn("slow").addClass("show");
         }
         else
         {
             $(".hello_menu_fixed_main_wrapper").fadeOut("slow").removeClass("show");
         }
-        
+
         clearTimeout($.data(this, 'scrollTimer'));
         $.data(this, 'scrollTimer', setTimeout(function() {
             if ($('.hello_menu_fixed_main_wrapper').is(':hover')) {
-	        
+
     		}
             else
             {
@@ -133,15 +133,15 @@
             }
 		}, 50000));
     }
-    
+
 });
 
 
-	
 
 
-	
-	
+
+
+
 
 // main-slider ==================== start
 var owl = $('.main-slider');
@@ -275,7 +275,7 @@ function closeNav() {
 
 function toggleSearch(type) {
   if(type=="close") {
-      //close serach 
+      //close serach
       $('.cd-search').removeClass('is-visible');
       $('.cd-search-trigger').removeClass('search-is-visible');
     } else {
