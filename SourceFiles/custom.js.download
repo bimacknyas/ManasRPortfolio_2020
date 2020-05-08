@@ -290,4 +290,8 @@ function toggleSearch(type) {
 $(document).ready(function(){
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+    $('.loader').show();
+    $('.wrkpcBck, .GamePlayBck, .HOSBck').on('load',function(){
+      $('.loader').hide();
+    });
   });

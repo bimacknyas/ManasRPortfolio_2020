@@ -1323,8 +1323,8 @@ ul.chart-list li:last-child {
 .my-portfolio-section .element-item a.more {
 		width: 100%;
     right: -100%;
-    bottom: 0px;
-    height: 100%;
+    bottom: 4%;
+    height: 96%;
     color: #2196f3;
     line-height: 35px;
     text-align: center;
@@ -2846,4 +2846,14 @@ path {
   background-size: 100%;
   width: 100%;
   height: 7000px;
+}
+
+.loader{
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background:url(http://i.giphy.com/3og0ISeflb7vrNzy2A.gif) no-repeat center;
 }

@@ -674,6 +674,9 @@ custom - media screen and (max-width: 1366px) End
 		background-color: transparent !important;
 	}
 	.modal{width: 90%}
+	ul.brand-list.ul-li {
+    display: inline-block;
+	}
 
 }
 
