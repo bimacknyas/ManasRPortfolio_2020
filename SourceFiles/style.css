@@ -2043,7 +2043,10 @@ body.clearfix.chooser {
     background-position: center, center;/*
 		    background-size: auto, 1400px auto, auto;*/
 }
-.desc{font-size: 22px; line-height: 40px;}
+.desc{
+  font-size: 22px;
+  line-height: 40px;
+}
 .btnYlw, .btnRed{
 	  position: relative;
     border: 3px solid #232323;
