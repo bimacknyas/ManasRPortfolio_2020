@@ -691,13 +691,14 @@ ul.side-nav li.sn-item > a > i {
   margin-bottom: 50px;
 }
 .aboutme-section ul.service-list li {
-    width: 165px;
-    height: 150px;
-    padding: 10px;
+    width: 210px;
+    height: 175px;
+    padding: 15px;
+    padding-right: 10px;
     overflow: hidden;
     position: relative;
     margin-right: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     background-color: #ffffff;
     box-shadow: 0px 10px 40px 0px rgba(1, 1, 1, 0.1);
 }
@@ -2042,7 +2043,7 @@ body.clearfix.chooser {
     background-position: center, center;/*
 		    background-size: auto, 1400px auto, auto;*/
 }
-.desc{font-size: 24px; line-height: 44px;}
+.desc{font-size: 22px; line-height: 40px;}
 .btnYlw, .btnRed{
 	  position: relative;
     border: 3px solid #232323;
