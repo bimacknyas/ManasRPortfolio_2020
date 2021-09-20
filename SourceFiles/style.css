@@ -2833,6 +2833,12 @@ path {
   -moz-animation-delay:1.2s;
   animation-delay:1.2s;
 }
+.ztnaBck{
+  background: url(ZTNA.svg);
+  background-size: 100%;
+  width: 100%;
+  height: 5700px;
+}
 .wrkpcBck{
   background: url(WorkPlace.svg);
   background-size: 100%;
