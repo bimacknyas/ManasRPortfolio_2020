@@ -2839,6 +2839,12 @@ path {
   width: 100%;
   height: 5700px;
 }
+.siBck{
+  background: url(SI.svg);
+  background-size: 100%;
+  width: 100%;
+  height: 5700px;
+}
 .wrkpcBck{
   background: url(WorkPlace.svg);
   background-size: 100%;
