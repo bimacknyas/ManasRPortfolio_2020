@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6sense Sales Intelligence — Design Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #1D9E75;
+    --teal-light: #5DCAA5;
+    --teal-pale: #E1F5EE;
+    --teal-deep: #0F6E56;
+    --navy: #08111F;
+    --navy-mid: #0D1E30;
+    --navy-card: #101F33;
+    --navy-border: #1A2E44;
+    --text-primary: #F0F4F8;
+    --text-secondary: #8AA4BE;
+    --text-muted: #4F6880;
+    --coral: #D85A30;
+    --coral-light: #F0997B;
+    --amber: #EF9F27;
+    --blue: #378ADD;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(8,17,31,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 500;
+    color: var(--teal-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px; font-weight: 400;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+
+  /* LAYOUT */
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  section { padding: 6rem 0; }
+
+  /* HERO */
+  .hero {
+    padding-top: 10rem; padding-bottom: 7rem;
+    border-bottom: 1px solid var(--navy-border);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(29,158,117,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal-light);
+    border: 1px solid rgba(93,202,165,0.3);
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    max-width: 780px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    color: var(--teal-light);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 18px; font-weight: 300;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+  .hero-meta {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+  }
+  .hero-meta-item label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 4px;
+  }
+  .hero-meta-item span {
+    font-size: 14px; color: var(--text-secondary); font-weight: 400;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .section-body {
+    font-size: 16px; font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 660px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--navy-border);
+    margin: 0;
+  }
+
+  /* STAT CARDS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--navy-border);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; overflow: hidden;
+    margin: 3rem 0;
+  }
+  .stat-card {
+    background: var(--navy-card);
+    padding: 2rem 1.75rem;
+  }
+  .stat-card .num {
+    font-family: var(--font-display);
+    font-size: 3.2rem;
+    line-height: 1; font-weight: 400;
+    color: var(--teal-light);
+    margin-bottom: 0.5rem;
+  }
+  .stat-card .num.warn { color: var(--coral-light); }
+  .stat-card .num.blue { color: #7EB8F0; }
+  .stat-card .label {
+    font-size: 13px; color: var(--text-muted);
+    font-weight: 400; letter-spacing: 0.02em;
+  }
+
+  /* PROBLEM PILLARS */
+  .problem-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .problem-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 1.75rem;
+    position: relative; overflow: hidden;
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .problem-card.p1::before { background: var(--teal); }
+  .problem-card.p2::before { background: var(--coral); }
+  .problem-card.p3::before { background: var(--amber); }
+  .problem-card.p4::before { background: var(--blue); }
+  .problem-card h4 {
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.01em;
+  }
+  .problem-card p {
+    font-size: 13px; color: var(--text-muted);
+    line-height: 1.65; font-weight: 300;
+  }
+
+  /* RESEARCH PROCESS TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 3rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 1px; background: var(--navy-border);
+  }
+  .tl-item {
+    position: relative;
+    padding: 0 0 2.5rem 2rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute; left: -2rem; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    transform: translateX(-3.5px);
+    outline: 3px solid var(--navy);
+  }
+  .tl-item .tl-date {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+  }
+  .tl-item h4 {
+    font-size: 15px; font-weight: 500;
+    color: var(--text-primary); margin-bottom: 0.4rem;
+  }
+  .tl-item p {
+    font-size: 13px; color: var(--text-muted);
+    font-weight: 300; line-height: 1.6;
+  }
+
+  /* PERSONAS */
+  .persona-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .persona-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 1.75rem;
+    text-align: center;
+  }
+  .persona-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.4rem; font-weight: 400;
+  }
+  .persona-avatar.av1 { background: rgba(29,158,117,0.15); color: var(--teal-light); }
+  .persona-avatar.av2 { background: rgba(55,138,221,0.15); color: #7EB8F0; }
+  .persona-avatar.av3 { background: rgba(216,90,48,0.15); color: var(--coral-light); }
+  .persona-card .role {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 0.5rem;
+  }
+  .persona-card h4 { font-size: 15px; font-weight: 500; margin-bottom: 0.75rem; }
+  .persona-card .goal-tag {
+    display: inline-block;
+    font-size: 12px; font-weight: 400;
+    padding: 5px 12px; border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  .persona-card.pc1 .goal-tag { background: rgba(29,158,117,0.12); color: var(--teal-light); }
+  .persona-card.pc2 .goal-tag { background: rgba(55,138,221,0.12); color: #7EB8F0; }
+  .persona-card.pc3 .goal-tag { background: rgba(216,90,48,0.12); color: var(--coral-light); }
+  .persona-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+  /* JTBD FLOW */
+  .jtbd-flow {
+    margin-top: 3rem;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--navy-border);
+    border: 1px solid var(--navy-border); border-radius: 12px; overflow: hidden;
+  }
+  .jtbd-card {
+    background: var(--navy-card);
+    padding: 1.75rem;
+    position: relative;
+  }
+  .jtbd-num {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--text-muted);
+    letter-spacing: 0.08em; margin-bottom: 0.5rem;
+  }
+  .jtbd-label {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--teal-light); margin-bottom: 1rem;
+  }
+  .jtbd-card h4 {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-primary); margin-bottom: 0.5rem;
+  }
+  .jtbd-card p {
+    font-size: 12px; color: var(--text-muted);
+    line-height: 1.65; font-weight: 300;
+  }
+
+  /* OPPORTUNITIES */
+  .opp-table {
+    margin-top: 2.5rem;
+    border: 1px solid var(--navy-border); border-radius: 12px; overflow: hidden;
+  }
+  .opp-row {
+    display: grid; grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .opp-row:last-child { border-bottom: none; }
+  .opp-phase {
+    background: var(--navy-card);
+    padding: 1.5rem 1.25rem;
+    border-right: 1px solid var(--navy-border);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .opp-phase .phase-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-bottom: 0.6rem;
+  }
+  .opp-phase .phase-name {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-primary);
+    font-weight: 500;
+  }
+  .opp-items {
+    padding: 1.25rem 1.5rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    justify-content: center;
+  }
+  .opp-tag {
+    display: inline-block;
+    font-size: 12px; font-weight: 400;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--navy-border);
+    padding: 4px 10px; border-radius: 6px;
+    margin-right: 6px; margin-bottom: 4px;
+    white-space: nowrap;
+  }
+
+  /* DESIGN SOLUTIONS */
+  .solution-block {
+    margin-bottom: 4rem;
+  }
+  .solution-block:last-child { margin-bottom: 0; }
+  .solution-header {
+    display: flex; align-items: flex-start;
+    gap: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .solution-num {
+    font-family: var(--font-display);
+    font-size: 3rem; font-weight: 400;
+    color: var(--navy-border);
+    line-height: 1; min-width: 60px;
+    user-select: none;
+  }
+  .solution-header-text h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 400;
+    color: var(--text-primary); margin-bottom: 0.5rem;
+  }
+  .solution-header-text p {
+    font-size: 14px; color: var(--text-muted); font-weight: 300;
+  }
+
+  .mockup-frame {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .mockup-bar {
+    height: 36px;
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--navy-border);
+    display: flex; align-items: center; padding: 0 1rem; gap: 6px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: rgba(255,95,87,0.6); }
+  .dot.y { background: rgba(255,189,46,0.6); }
+  .dot.g { background: rgba(40,200,64,0.6); }
+  .mockup-url {
+    flex: 1; background: rgba(255,255,255,0.05);
+    border-radius: 4px; height: 20px;
+    display: flex; align-items: center; padding: 0 10px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+  }
+  .mockup-body { padding: 1.5rem; }
+
+  /* DASHBOARD MOCKUP */
+  .db-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; }
+  .db-metric {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px; padding: 1rem;
+  }
+  .db-metric .db-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+  .db-metric .db-val { font-family: var(--font-display); font-size: 1.8rem; color: var(--teal-light); }
+  .db-metric .db-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .db-accounts { margin-top: 1.5rem; }
+  .db-row {
+    display: grid; grid-template-columns: 1fr 80px 80px 90px;
+    gap: 1rem; padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    align-items: center; font-size: 12px;
+  }
+  .db-row.header { color: var(--text-muted); font-size: 11px; letter-spacing: 0.04em; }
+  .db-row .acct-name { font-weight: 500; color: var(--text-primary); font-size: 13px; }
+  .db-row .acct-name span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 300; }
+  .badge {
+    display: inline-block; padding: 3px 9px; border-radius: 100px;
+    font-size: 11px; font-weight: 500; text-align: center;
+  }
+  .badge.hot { background: rgba(216,90,48,0.15); color: var(--coral-light); }
+  .badge.warm { background: rgba(239,159,39,0.15); color: var(--amber); }
+  .badge.cold { background: rgba(55,138,221,0.12); color: #7EB8F0; }
+
+  /* EMAIL MOCKUP */
+  .email-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .email-panel { background: rgba(255,255,255,0.025); border: 1px solid var(--navy-border); border-radius: 8px; padding: 1rem; }
+  .email-panel .ep-label { font-size: 10px; color: var(--teal); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.75rem; }
+  .signal-item { display: flex; gap: 8px; margin-bottom: 0.6rem; align-items: flex-start; }
+  .signal-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 7px; flex-shrink: 0; }
+  .signal-item p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .email-preview { font-size: 12px; color: var(--text-secondary); line-height: 1.7; font-weight: 300; }
+  .email-preview .sub { font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem; font-size: 13px; }
+  .email-preview .hi { color: var(--teal-light); font-weight: 500; }
+
+  /* INSIGHTS */
+  .insight-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .insight-card {
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 1.75rem;
+    background: var(--navy-card);
+  }
+  .insight-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .insight-icon.ic1 { background: rgba(29,158,117,0.12); color: var(--teal-light); }
+  .insight-icon.ic2 { background: rgba(216,90,48,0.12); color: var(--coral-light); }
+  .insight-icon.ic3 { background: rgba(239,159,39,0.12); color: var(--amber); }
+  .insight-icon.ic4 { background: rgba(55,138,221,0.12); color: #7EB8F0; }
+  .insight-card h4 { font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem; }
+  .insight-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    border-left: 2px solid var(--teal);
+    padding: 1.25rem 1.75rem;
+    margin: 2rem 0;
+    background: rgba(29,158,117,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .quote-block p {
+    font-family: var(--font-display);
+    font-size: 1.15rem; font-weight: 400;
+    font-style: italic;
+    color: var(--text-secondary); line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  .quote-block cite {
+    font-size: 12px; color: var(--text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  /* IMPACT */
+  .impact-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .impact-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 1.75rem; text-align: center;
+  }
+  .impact-card .big { 
+    font-family: var(--font-display);
+    font-size: 2.8rem; font-weight: 400; line-height: 1;
+    color: var(--teal-light); margin-bottom: 0.4rem;
+  }
+  .impact-card .desc { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+
+  /* PROCESS BAR */
+  .process-bar {
+    display: flex; gap: 0;
+    margin-top: 2.5rem; margin-bottom: 3rem;
+    border: 1px solid var(--navy-border); border-radius: 8px; overflow: hidden;
+  }
+  .process-step {
+    flex: 1; padding: 1rem;
+    background: var(--navy-card);
+    border-right: 1px solid var(--navy-border);
+    text-align: center;
+    position: relative;
+  }
+  .process-step:last-child { border-right: none; }
+  .process-step .ps-num {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--teal);
+    display: block; margin-bottom: 4px;
+  }
+  .process-step .ps-name {
+    font-size: 12px; font-weight: 500;
+    color: var(--text-secondary); white-space: nowrap;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 0;
+    border-top: 1px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer p { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+  .footer-tag {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--teal);
+    letter-spacing: 0.06em;
+  }
+
+  /* PEOPLE ANALYSIS MOCKUP */
+  .people-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; }
+  .people-list { display: flex; flex-direction: column; gap: 6px; }
+  .p-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 6px;
+    background: rgba(255,255,255,0.03); cursor: pointer;
+  }
+  .p-item.active { background: rgba(29,158,117,0.1); border: 1px solid rgba(29,158,117,0.25); }
+  .p-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(29,158,117,0.15); color: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; flex-shrink: 0;
+  }
+  .p-info .p-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .p-info .p-title { font-size: 11px; color: var(--text-muted); }
+  .p-detail { background: rgba(255,255,255,0.025); border: 1px solid var(--navy-border); border-radius: 8px; padding: 1rem; }
+  .p-detail h5 { font-size: 13px; font-weight: 500; color: var(--teal-light); margin-bottom: 4px; }
+  .p-detail .p-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 1rem; }
+  .intent-bar { margin-bottom: 8px; }
+  .intent-bar .ib-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; display: flex; justify-content: space-between; }
+  .ib-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+  .ib-fill { height: 100%; border-radius: 100px; }
+  .ib-fill.high { background: var(--teal); width: 82%; }
+  .ib-fill.med { background: var(--amber); width: 47%; }
+  .ib-fill.low { background: var(--blue); width: 28%; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">6sense · Design Case Study</div>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#jtbd">JTBD</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#impact">Impact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <span class="hero-tag">Revenue AI · Sales Intelligence</span>
+    <h1>Redesigning <em>how BDRs discover</em> and engage prospects</h1>
+    <p class="hero-sub">A foundational JTBD research study and end-to-end UX redesign to increase adoption of the 6sense Sales Intelligence platform from 23% to a category-leading experience.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <label>Role</label>
+        <span>Staff Product Designer</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Timeline</label>
+        <span>Sep – Oct 2024</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Methods</label>
+        <span>JTBD, Generative Research, Co-design</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Participants</label>
+        <span>17 users · 7 external · 10 internal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section id="context">
+    <p class="section-label">01 · Context & Problem</p>
+    <h2 class="section-title">A powerful tool that most reps weren't using</h2>
+    <p class="section-body">6sense's Sales Intelligence tool promised to transform how BDRs prospect — surfacing buying signals, intent data, and contact intelligence. But the adoption numbers told a different story. A low adoption rate meant billions in pipeline were being left untouched.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num warn">23%</div>
+        <div class="label">Active user adoption rate — Sep 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">28%</div>
+        <div class="label">Of a rep's day spent actually selling (Salesforce)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num blue">18%</div>
+        <div class="label">Of rep time spent on prospect research & emails</div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"I don't understand how to sift through all the intent data. I wish 6sense provided more training for BDRs."</p>
+      <cite>— Enterprise BDR, User Interview</cite>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card p1">
+        <h4>Fragmented workflow</h4>
+        <p>BDRs relied on multiple disconnected tools — LinkedIn Sales Navigator, Salesforce, spreadsheets — because 6sense didn't integrate cleanly into their daily motion.</p>
+      </div>
+      <div class="problem-card p2">
+        <h4>Time-consuming account analysis</h4>
+        <p>Researching an account before outreach took hours. Without synthesis, reps couldn't confidently prioritize who to contact or what to say.</p>
+      </div>
+      <div class="problem-card p3">
+        <h4>Generic, low-converting outreach</h4>
+        <p>Without contextual buying signals surfaced at the right moment, email and call scripts defaulted to generic templates with low open and reply rates.</p>
+      </div>
+      <div class="problem-card p4">
+        <h4>Low trust in intent data</h4>
+        <p>False positives from existing customer accounts and subsidiary orgs eroded trust. Reps couldn't rely on "hot" signals without manual verification.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <p class="section-label">02 · Research Approach</p>
+    <h2 class="section-title">Generative research before a single pixel</h2>
+    <p class="section-body">Rather than jumping to solutions, we ran a structured generative research programme across both Enterprise and Enterprise Lite customers. The goal was to uncover the foundational <em>jobs</em> — not just feature requests — that would unlock adoption.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Sep 4 – 17, 2024</div>
+        <h4>MTTM Workshop (Make Things that Matter)</h4>
+        <p>Cross-functional alignment on research questions, hypothesis framing, and success metrics. Defined two core research questions: what are users trying to accomplish, and where are the friction points blocking adoption?</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Sep 19 – Oct 9, 2024</div>
+        <h4>Structured User Interviews (n=11)</h4>
+        <p>Recruited 6 Enterprise SDRs/BDRs with >50% org credit usage, plus 5 Enterprise Lite participants to augment the sample. Used 5 probing interview questions around daily workflow, team structure, tool fit, mental models, and competitive alternatives.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Concurrent</div>
+        <h4>Secondary Research</h4>
+        <p>Pendo product analytics revealed where users dropped off. LogRocket session replays exposed friction in real workflows — not just what users said, but what they did.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Oct 10 – 31, 2024</div>
+        <h4>Analysis, Affinity Mapping & Reporting</h4>
+        <p>Synthesised interview transcripts into clustered themes using affinity mapping. Validated against Pendo quantitative patterns to triangulate qualitative insights with usage data.</p>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top: 3rem;">Study participants</p>
+    <div class="persona-grid">
+      <div class="persona-card pc1">
+        <div class="persona-avatar av1">BR</div>
+        <div class="role">BDR / SDR</div>
+        <h4>Business Development Rep</h4>
+        <span class="goal-tag">Book Qualified Calls</span>
+        <p>Primary users. Responsible for outbound prospecting, list building, and booking meetings. Measured on qualified meetings booked per quarter.</p>
+      </div>
+      <div class="persona-card pc2">
+        <div class="persona-avatar av2">MK</div>
+        <div class="role">BDR Manager</div>
+        <h4>Sales Development Manager</h4>
+        <span class="goal-tag">Manage Team & Pipeline</span>
+        <p>Oversees a team of 6–12 BDRs. Needs visibility into pipeline health, rep productivity, and territory coverage to coach effectively.</p>
+      </div>
+      <div class="persona-card pc3">
+        <div class="persona-avatar av3">SL</div>
+        <div class="role">Account Executive</div>
+        <h4>Account Executive</h4>
+        <span class="goal-tag">Close Qualified Deals</span>
+        <p>Receives warm handoffs from BDRs. Uses 6sense for pre-call research and deal acceleration once opportunities are in-pipe.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- JTBD -->
+  <section id="jtbd">
+    <p class="section-label">03 · Jobs to Be Done</p>
+    <h2 class="section-title">Six jobs that define the BDR's daily motion</h2>
+    <p class="section-body">From the research, a clear sequential workflow emerged. Users don't think in features — they think in jobs. These six JTBD statements became the design north stars for the entire platform redesign, grounding every decision in a real user need.</p>
+
+    <div class="jtbd-flow">
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 01</div>
+        <div class="jtbd-label">Define Targets</div>
+        <h4>Understand ICP & qualification criteria</h4>
+        <p>When I start prospecting, I want to understand qualification criteria and define what accounts or ICPs are my targets, so I can focus my efforts.</p>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 02</div>
+        <div class="jtbd-label">Find Prospects</div>
+        <h4>Find individuals matching ICP</h4>
+        <p>When I execute a prospecting plan, I want to find individual prospects matching the qualification criteria, so I get the highest qualified opportunity rate.</p>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 03</div>
+        <div class="jtbd-label">Track Information</div>
+        <h4>Store and share up-to-date data</h4>
+        <p>When I find new prospects, I want to track, store, and share all their up-to-date information needed for a sale, so I can coordinate and report on goals.</p>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 04</div>
+        <div class="jtbd-label">Prioritize</div>
+        <h4>Surface current buying intent</h4>
+        <p>As I track my ongoing prospects, I want to be aware of and prioritize my prospect's current interests, so I can be timely and relevant with my engagement.</p>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 05</div>
+        <div class="jtbd-label">Engage Prospects</div>
+        <h4>Outreach with relevant cadence</h4>
+        <p>As I track and prioritize information, I want to engage prospects with relevant and fruitful cadence, content, tone, and approach, to maximize booking likelihood.</p>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-num">JOB 06</div>
+        <div class="jtbd-label">Book Meetings</div>
+        <h4>Convert to qualified meetings</h4>
+        <p>As I contact prospects, I want to book meetings for the highest number of qualified opportunities possible, so I can exceed quarterly goals and increase closed deals.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- OPPORTUNITIES -->
+  <section id="opportunities">
+    <p class="section-label">04 · Opportunity Mapping</p>
+    <h2 class="section-title">Mapping pain to each job — the adoption blockers</h2>
+    <p class="section-body">With the JTBD framework established, we mapped every research pain point back to the job it disrupted. This gave us a structured backlog of opportunity areas prioritized by frequency and severity of mention.</p>
+
+    <div class="opp-table">
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:var(--teal)"></div>
+          <div class="phase-name">Define</div>
+        </div>
+        <div class="opp-items">
+          <div>
+            <span class="opp-tag">Better ICP filter logic</span>
+            <span class="opp-tag">Clearer account matching criteria</span>
+            <span class="opp-tag">Reduce false positives from existing customers</span>
+          </div>
+        </div>
+      </div>
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:var(--blue)"></div>
+          <div class="phase-name">Find</div>
+        </div>
+        <div class="opp-items">
+          <span class="opp-tag">Consistent contact data across regions</span>
+          <span class="opp-tag">Specify who is performing intent action</span>
+          <span class="opp-tag">Reliability parity with LinkedIn Sales Nav</span>
+        </div>
+      </div>
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:var(--amber)"></div>
+          <div class="phase-name">Track</div>
+        </div>
+        <div class="opp-items">
+          <span class="opp-tag">Salesforce integration improvements</span>
+          <span class="opp-tag">Less manual CRM export steps</span>
+          <span class="opp-tag">International contact auto-upload</span>
+          <span class="opp-tag">Reduce CRM export to &lt;15 min</span>
+        </div>
+      </div>
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:var(--coral)"></div>
+          <div class="phase-name">Prioritize</div>
+        </div>
+        <div class="opp-items">
+          <span class="opp-tag">Timelier email alerts</span>
+          <span class="opp-tag">Filter to relevant accounts/regions only</span>
+          <span class="opp-tag">Distinguish competitor vs. own tech intent</span>
+          <span class="opp-tag">Simplify "intent & web activities" view</span>
+        </div>
+      </div>
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:#7EB8F0"></div>
+          <div class="phase-name">Engage</div>
+        </div>
+        <div class="opp-items">
+          <span class="opp-tag">Higher email deliverability rate (&gt;50% today)</span>
+          <span class="opp-tag">Historical conversation context</span>
+          <span class="opp-tag">Intent-informed call prep</span>
+          <span class="opp-tag">Contact content engagement strategy</span>
+        </div>
+      </div>
+      <div class="opp-row">
+        <div class="opp-phase">
+          <div class="phase-dot" style="background:var(--teal-light)"></div>
+          <div class="phase-name">Book</div>
+        </div>
+        <div class="opp-items">
+          <span class="opp-tag">Faster SEP sequence transfer</span>
+          <span class="opp-tag">Previous conversation context surfaced</span>
+          <span class="opp-tag">Intent data primes call scripts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- DESIGN -->
+  <section id="design">
+    <p class="section-label">05 · Design Process & Solutions</p>
+    <h2 class="section-title">From insight to interface</h2>
+    <p class="section-body">With a validated JTBD framework, we moved into co-working design sessions with power users and stakeholders. Three core design areas emerged from the opportunity mapping — each addressing a specific cluster of jobs to be done.</p>
+
+    <div class="process-bar">
+      <div class="process-step"><span class="ps-num">01</span><span class="ps-name">User Journey Map</span></div>
+      <div class="process-step"><span class="ps-num">02</span><span class="ps-name">Info Architecture</span></div>
+      <div class="process-step"><span class="ps-num">03</span><span class="ps-name">Ideation & Co-design</span></div>
+      <div class="process-step"><span class="ps-num">04</span><span class="ps-name">Prototype & Test</span></div>
+      <div class="process-step"><span class="ps-num">05</span><span class="ps-name">Design Refinement</span></div>
+    </div>
+
+    <!-- SOLUTION 1 -->
+    <div class="solution-block">
+      <div class="solution-header">
+        <div class="solution-num">01</div>
+        <div class="solution-header-text">
+          <h3>Dashboard & Account Prioritization</h3>
+          <p>Jobs addressed: Define Targets · Prioritize Current Interests · Track Information</p>
+        </div>
+      </div>
+
+      <!-- 6sense authentic light-theme dashboard mockup -->
+      <div style="border:1px solid #D1D5DB;border-radius:12px;overflow:hidden;background:#F3F4F6;font-family:'DM Sans',system-ui,sans-serif;">
+        <!-- App shell: sidebar + main -->
+        <div style="display:flex;height:480px;">
+
+          <!-- Left sidebar -->
+          <div style="width:44px;background:#0B1E35;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px;flex-shrink:0;">
+            <!-- Logo -->
+            <div style="width:26px;height:26px;background:#1D9E75;border-radius:5px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="white" stroke-width="1.5"/><circle cx="7" cy="7" r="2" fill="white"/></svg>
+            </div>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.8"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M12 2a5 5 0 00-5 5v2H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2v-9a2 2 0 00-2-2h-2V7a5 5 0 00-5-5z"/></svg>
+          </div>
+
+          <!-- Main content -->
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+
+            <!-- Top header -->
+            <div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:0 16px;height:40px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:13px;font-weight:600;color:#111827;">Dashboard</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9CA3AF" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+                <div style="border:1px solid #E5E7EB;border-radius:5px;padding:3px 8px;font-size:10px;color:#374151;display:flex;align-items:center;gap:4px;">Select Product <span style="color:#9CA3AF;">▾</span></div>
+                <div style="width:26px;height:26px;background:#0B1E35;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:600;">BW</div>
+              </div>
+            </div>
+
+            <!-- Greeting bar -->
+            <div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:6px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+              <span style="font-size:11px;color:#374151;"><strong>Hello, Brian!</strong> We have tailored today's focus around your work</span>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <div style="border:1px solid #E5E7EB;border-radius:5px;padding:3px 8px;font-size:10px;color:#374151;display:flex;align-items:center;gap:3px;"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> 30 Days</div>
+                <div style="border:1px solid #E5E7EB;border-radius:5px;padding:3px 8px;font-size:10px;color:#374151;display:flex;align-items:center;gap:3px;"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M4 6h16M8 12h8M11 18h2"/></svg> Filter</div>
+              </div>
+            </div>
+
+            <!-- Scrollable body -->
+            <div style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#F3F4F6;">
+
+              <!-- Highlights -->
+              <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px 16px;">
+                <div style="font-size:11px;font-weight:600;color:#111827;margin-bottom:10px;">Highlights</div>
+                <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">
+                  <div style="border-right:1px solid #F3F4F6;padding-right:8px;">
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">2000</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Total CRM Accounts</div>
+                  </div>
+                  <div style="border-right:1px solid #F3F4F6;padding-right:8px;">
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">700</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Total 6QA</div>
+                    <div style="font-size:9px;color:#059669;">+1% from yesterday</div>
+                  </div>
+                  <div style="border-right:1px solid #F3F4F6;padding-right:8px;">
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">100</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Account Reached</div>
+                    <div style="font-size:9px;color:#059669;">+2% from yesterday</div>
+                  </div>
+                  <div style="border-right:1px solid #F3F4F6;padding-right:8px;">
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">500</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Call dialled</div>
+                    <div style="font-size:9px;color:#059669;">+5% from yesterday</div>
+                  </div>
+                  <div style="border-right:1px solid #F3F4F6;padding-right:8px;">
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">200</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Email sent</div>
+                    <div style="font-size:9px;color:#DC2626;">-6% from yesterday</div>
+                  </div>
+                  <div>
+                    <div style="font-size:20px;font-weight:700;color:#111827;line-height:1.1;">50</div>
+                    <div style="font-size:10px;color:#6B7280;margin-top:2px;line-height:1.3;">Meeting booked</div>
+                    <div style="font-size:9px;color:#059669;">+1% from yesterday</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mid row: Buying stages | Worked vs Unworked | Copilot -->
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+
+                <!-- Buying stages -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span style="font-size:11px;font-weight:600;color:#111827;">Buying stages</span>
+                    <span style="font-size:14px;color:#9CA3AF;cursor:pointer;">···</span>
+                  </div>
+                  <div style="display:flex;gap:8px;margin-bottom:8px;">
+                    <span style="font-size:10px;color:#DC2626;font-weight:500;">At risk: 7</span>
+                    <span style="font-size:10px;color:#059669;font-weight:500;">On track: 4</span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;">
+                    <div style="text-align:right;">
+                      <div style="font-size:11px;font-weight:600;color:#111827;">5</div>
+                      <div style="font-size:11px;font-weight:600;color:#111827;">67</div>
+                      <div style="font-size:11px;font-weight:600;color:#111827;">150</div>
+                      <div style="font-size:11px;font-weight:600;color:#111827;">500</div>
+                      <div style="font-size:11px;font-weight:600;color:#111827;">1000</div>
+                    </div>
+                    <div>
+                      <div style="font-size:10px;color:#6B7280;line-height:1.8;">Purchase</div>
+                      <div style="font-size:10px;color:#6B7280;line-height:1.8;">Decision</div>
+                      <div style="font-size:10px;color:#6B7280;line-height:1.8;">Consideration</div>
+                      <div style="font-size:10px;color:#6B7280;line-height:1.8;">Awareness</div>
+                      <div style="font-size:10px;color:#6B7280;line-height:1.8;">Target</div>
+                    </div>
+                  </div>
+                  <div style="margin-top:8px;">
+                    <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;">BlueSphere Inc</div>
+                    <div style="font-size:9px;color:#6B7280;">California, United States</div>
+                    <div style="font-size:9px;color:#DC2626;">⚠ At risk: Budget cuts</div>
+                    <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-top:4px;">Tata Consultancy</div>
+                    <div style="font-size:9px;color:#6B7280;">Mumbai, India</div>
+                    <div style="font-size:9px;color:#DC2626;">⚠ At risk: Contract ending</div>
+                    <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-top:2px;">VIEW ALL ›</div>
+                  </div>
+                </div>
+
+                <!-- Worked vs Unworked -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span style="font-size:11px;font-weight:600;color:#111827;">Worked vs Unworked</span>
+                    <span style="font-size:14px;color:#9CA3AF;cursor:pointer;">···</span>
+                  </div>
+                  <!-- Donut chart SVG -->
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <svg width="72" height="72" viewBox="0 0 72 72">
+                      <circle cx="36" cy="36" r="28" fill="none" stroke="#E5E7EB" stroke-width="12"/>
+                      <circle cx="36" cy="36" r="28" fill="none" stroke="#1E40AF" stroke-width="12" stroke-dasharray="105 71" stroke-dashoffset="21" stroke-linecap="butt"/>
+                      <circle cx="36" cy="36" r="28" fill="none" stroke="#93C5FD" stroke-width="12" stroke-dasharray="70 106" stroke-dashoffset="-84" stroke-linecap="butt"/>
+                    </svg>
+                    <div>
+                      <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-bottom:2px;">ABB</div>
+                      <div style="font-size:9px;color:#6B7280;">Texas, United States</div>
+                      <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-top:4px;">Visa Inc</div>
+                      <div style="font-size:9px;color:#6B7280;">Florida, United States</div>
+                      <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-top:4px;">Infosys</div>
+                      <div style="font-size:9px;color:#6B7280;">Bangalore, India</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px;margin-top:10px;">
+                    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#6B7280;"><span style="width:8px;height:8px;border-radius:50%;background:#1E40AF;display:inline-block;"></span>Worked</div>
+                    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#6B7280;"><span style="width:8px;height:8px;border-radius:50%;background:#93C5FD;display:inline-block;"></span>Unworked</div>
+                  </div>
+                </div>
+
+                <!-- AI Copilot -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;">
+                  <div style="width:36px;height:36px;background:#EFF6FF;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                  </div>
+                  <div style="font-size:13px;font-weight:600;color:#111827;">Hello Brian</div>
+                  <div style="font-size:11px;color:#6B7280;">Ask me anything account related</div>
+                  <div style="width:100%;border:1px solid #E5E7EB;border-radius:20px;padding:6px 10px 6px 12px;display:flex;align-items:center;gap:6px;background:#F9FAFB;margin-top:4px;">
+                    <span style="font-size:10px;color:#9CA3AF;flex:1;text-align:left;">Message Copilot</span>
+                    <div style="width:20px;height:20px;background:#2563EB;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;width:100%;">
+                    <div style="flex:1;border:1px solid #E5E7EB;border-radius:5px;padding:4px 6px;font-size:9px;color:#374151;text-align:center;cursor:pointer;">📅 30 day summary</div>
+                    <div style="flex:1;border:1px solid #E5E7EB;border-radius:5px;padding:4px 6px;font-size:9px;color:#374151;text-align:center;cursor:pointer;">↗ Engagement activities</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Bottom row: Engaged People | Discover Contact -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+
+                <!-- Engaged People -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <span style="font-size:11px;font-weight:600;color:#111827;">Engaged People</span>
+                    <span style="font-size:14px;color:#9CA3AF;cursor:pointer;">···</span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                      <div style="display:inline-block;background:#ECFDF5;color:#065F46;font-size:9px;font-weight:600;padding:2px 7px;border-radius:100px;margin-bottom:6px;">● Reach Out</div>
+                      <div style="margin-bottom:6px;">
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Daniel Mcfarland</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                        <div style="font-size:9px;color:#6B7280;">○ Influences the team &nbsp;○ Buying group</div>
+                      </div>
+                      <div style="margin-bottom:6px;">
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Somen Dutta</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                        <div style="font-size:9px;color:#6B7280;">○ Influences the team</div>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Eva White</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="display:inline-block;background:#FFF7ED;color:#9A3412;font-size:9px;font-weight:600;padding:2px 7px;border-radius:100px;margin-bottom:6px;">● Follow Up</div>
+                      <div style="margin-bottom:6px;">
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Alex Donner</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                        <div style="font-size:9px;color:#6B7280;">○ Buying group</div>
+                      </div>
+                      <div style="margin-bottom:6px;">
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Stanley Morgan</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                        <div style="font-size:9px;color:#6B7280;">○ Influences the team</div>
+                      </div>
+                      <div>
+                        <div style="font-size:11px;color:#2563EB;font-weight:500;cursor:pointer;">Sonam Wang</div>
+                        <div style="font-size:9px;color:#6B7280;">Director, GTM Enablement, Google</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;color:#2563EB;font-weight:500;cursor:pointer;margin-top:8px;">VIEW ALL ›</div>
+                </div>
+
+                <!-- Discover Contact -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <span style="font-size:11px;font-weight:600;color:#111827;">Discover Contact</span>
+                  </div>
+                  <div style="border:1px solid #E5E7EB;border-radius:8px;padding:10px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+                      <div>
+                        <div style="font-size:11px;font-weight:600;color:#2563EB;cursor:pointer;">Walter Biles</div>
+                        <div style="font-size:10px;color:#6B7280;">Senior Director, GRM, Adobe</div>
+                      </div>
+                      <div style="display:flex;gap:4px;">
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#9CA3AF" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#9CA3AF" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                      </div>
+                    </div>
+                    <div style="font-size:10px;color:#374151;line-height:1.55;">Walter White has shown a sustained spike in interest around AI-led retail operations and cloud cost optimization, with steady engagement across campaigns and solution pages. No sales activity logged in the past month. Recently appointed Head of Enterprise Tech could signal upcoming buying motion.</div>
+                    <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+                      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2"><polyline points="23 7 13 17 8 12 1 18"/><polyline points="17 7 23 7 23 13"/></svg>
+                      <span style="font-size:9px;color:#2563EB;font-weight:500;">Spiking engagement</span>
+                    </div>
+                    <div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end;">
+                      <div style="width:22px;height:22px;border:1px solid #E5E7EB;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </div>
+                      <div style="width:22px;height:22px;border:1px solid #E5E7EB;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+                      </div>
+                      <div style="width:22px;height:22px;border:1px solid #E5E7EB;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /scrollable body -->
+          </div><!-- /main content -->
+        </div><!-- /app shell -->
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);font-weight:300;line-height:1.7;">The redesigned dashboard surfaces the right accounts at the right time — filtered to genuine ICP matches, sorted by real-time intent, and stripped of false positives from existing customers. BDRs no longer open 6sense wondering where to start.</p>
+    </div>
+
+    <!-- SOLUTION 2 -->
+    <div class="solution-block">
+      <div class="solution-header">
+        <div class="solution-num">02</div>
+        <div class="solution-header-text">
+          <h3>Account & People Analysis</h3>
+          <p>Jobs addressed: Find Prospects · Prioritize Current Interests · Track Information</p>
+        </div>
+      </div>
+
+      <!-- 6sense authentic light-theme account & people mockup -->
+      <div style="border:1px solid #D1D5DB;border-radius:12px;overflow:hidden;background:#F3F4F6;font-family:'DM Sans',system-ui,sans-serif;">
+        <div style="display:flex;height:400px;">
+          <!-- Sidebar -->
+          <div style="width:44px;background:#0B1E35;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px;flex-shrink:0;">
+            <div style="width:26px;height:26px;background:#1D9E75;border-radius:5px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="white" stroke-width="1.5"/><circle cx="7" cy="7" r="2" fill="white"/></svg>
+            </div>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <!-- Main -->
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+            <!-- Top bar -->
+            <div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:0 16px;height:40px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6B7280;">
+                <span style="color:#2563EB;cursor:pointer;">People</span>
+                <span>›</span>
+                <span style="color:#111827;font-weight:600;">Acme Corp</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="background:#ECFDF5;color:#065F46;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid #A7F3D0;">In Buying Stage</div>
+                <div style="border:1px solid #E5E7EB;border-radius:5px;padding:3px 8px;font-size:10px;color:#374151;">+ Add to Sequence</div>
+              </div>
+            </div>
+            <!-- Body -->
+            <div style="flex:1;overflow-y:auto;padding:12px;display:flex;gap:10px;background:#F3F4F6;">
+
+              <!-- Left: account summary + contacts list -->
+              <div style="width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;">
+                <!-- Account card -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                    <div style="width:36px;height:36px;background:#DBEAFE;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#1D4ED8;flex-shrink:0;">AC</div>
+                    <div>
+                      <div style="font-size:13px;font-weight:600;color:#111827;">Acme Corp</div>
+                      <div style="font-size:10px;color:#6B7280;">Enterprise · SaaS · New York, NY</div>
+                    </div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <div style="background:#F9FAFB;border-radius:6px;padding:6px;">
+                      <div style="font-size:9px;color:#9CA3AF;margin-bottom:1px;">Employees</div>
+                      <div style="font-size:12px;font-weight:600;color:#111827;">2,400</div>
+                    </div>
+                    <div style="background:#F9FAFB;border-radius:6px;padding:6px;">
+                      <div style="font-size:9px;color:#9CA3AF;margin-bottom:1px;">6QA Score</div>
+                      <div style="font-size:12px;font-weight:600;color:#059669;">82 / 100</div>
+                    </div>
+                    <div style="background:#F9FAFB;border-radius:6px;padding:6px;">
+                      <div style="font-size:9px;color:#9CA3AF;margin-bottom:1px;">Intent</div>
+                      <div style="font-size:12px;font-weight:600;color:#DC2626;">↑ High</div>
+                    </div>
+                    <div style="background:#F9FAFB;border-radius:6px;padding:6px;">
+                      <div style="font-size:9px;color:#9CA3AF;margin-bottom:1px;">Touches</div>
+                      <div style="font-size:12px;font-weight:600;color:#111827;">2</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Contact list -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;flex:1;">
+                  <div style="font-size:10px;font-weight:600;color:#111827;margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase;">Key Contacts</div>
+                  <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;cursor:pointer;">
+                      <div style="width:28px;height:28px;background:#DBEAFE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#1D4ED8;flex-shrink:0;">JR</div>
+                      <div><div style="font-size:11px;font-weight:500;color:#1D4ED8;">Jamie Rosen</div><div style="font-size:9px;color:#6B7280;">VP of Revenue Ops</div></div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;cursor:pointer;">
+                      <div style="width:28px;height:28px;background:#F3F4F6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#374151;flex-shrink:0;">CT</div>
+                      <div><div style="font-size:11px;font-weight:500;color:#374151;">Chris Tang</div><div style="font-size:9px;color:#6B7280;">Dir. Sales Enablement</div></div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;cursor:pointer;">
+                      <div style="width:28px;height:28px;background:#F3F4F6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#374151;flex-shrink:0;">AS</div>
+                      <div><div style="font-size:11px;font-weight:500;color:#374151;">Amy Singh</div><div style="font-size:9px;color:#6B7280;">Chief Revenue Officer</div></div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;cursor:pointer;">
+                      <div style="width:28px;height:28px;background:#F3F4F6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#374151;flex-shrink:0;">RK</div>
+                      <div><div style="font-size:11px;font-weight:500;color:#374151;">Ryan Kim</div><div style="font-size:9px;color:#6B7280;">Head of Enterprise Tech</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: contact detail -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+                <!-- Contact header -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:40px;height:40px;background:#DBEAFE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#1D4ED8;">JR</div>
+                      <div>
+                        <div style="font-size:14px;font-weight:600;color:#111827;">Jamie Rosen</div>
+                        <div style="font-size:11px;color:#6B7280;">VP Revenue Operations · jamie.r@acme.com</div>
+                        <div style="font-size:11px;color:#2563EB;cursor:pointer;">linkedin.com/in/jamierosen</div>
+                      </div>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                      <div style="border:1px solid #E5E7EB;border-radius:5px;padding:4px 10px;font-size:10px;color:#374151;cursor:pointer;display:flex;align-items:center;gap:4px;"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</div>
+                      <div style="border:1px solid #E5E7EB;border-radius:5px;padding:4px 10px;font-size:10px;color:#374151;cursor:pointer;display:flex;align-items:center;gap:4px;"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.2 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15z"/></svg>Call</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <span style="background:#F0FDF4;color:#166534;font-size:9px;font-weight:500;padding:2px 8px;border-radius:100px;border:1px solid #BBF7D0;">● Buying group</span>
+                    <span style="background:#EFF6FF;color:#1D4ED8;font-size:9px;font-weight:500;padding:2px 8px;border-radius:100px;border:1px solid #BFDBFE;">Influences the team</span>
+                    <span style="background:#FFF7ED;color:#9A3412;font-size:9px;font-weight:500;padding:2px 8px;border-radius:100px;border:1px solid #FED7AA;">Last contacted: Aug 14</span>
+                  </div>
+                </div>
+                <!-- Intent signals -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="font-size:10px;font-weight:600;color:#111827;margin-bottom:10px;letter-spacing:0.04em;text-transform:uppercase;">Intent signals — last 30 days</div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div>
+                      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="color:#374151;">CRM automation research</span><span style="color:#059669;font-weight:500;">High</span></div>
+                      <div style="height:5px;background:#E5E7EB;border-radius:100px;overflow:hidden;"><div style="width:82%;height:100%;background:#059669;border-radius:100px;"></div></div>
+                    </div>
+                    <div>
+                      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="color:#374151;">Sales intelligence tools</span><span style="color:#D97706;font-weight:500;">Mid</span></div>
+                      <div style="height:5px;background:#E5E7EB;border-radius:100px;overflow:hidden;"><div style="width:47%;height:100%;background:#D97706;border-radius:100px;"></div></div>
+                    </div>
+                    <div>
+                      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="color:#374151;">Competitor: [Redacted]</span><span style="color:#2563EB;font-weight:500;">Low</span></div>
+                      <div style="height:5px;background:#E5E7EB;border-radius:100px;overflow:hidden;"><div style="width:22%;height:100%;background:#2563EB;border-radius:100px;"></div></div>
+                    </div>
+                    <div>
+                      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="color:#374151;">Cloud infrastructure</span><span style="color:#D97706;font-weight:500;">Mid</span></div>
+                      <div style="height:5px;background:#E5E7EB;border-radius:100px;overflow:hidden;"><div style="width:54%;height:100%;background:#D97706;border-radius:100px;"></div></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Previous outreach -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="font-size:10px;font-weight:600;color:#111827;margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase;">Outreach history</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:#F9FAFB;border-radius:6px;border:1px solid #E5E7EB;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      <span style="font-size:11px;color:#374151;flex:1;">Email sent — opened, no reply</span>
+                      <span style="font-size:10px;color:#9CA3AF;">Aug 14</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:#F9FAFB;border-radius:6px;border:1px solid #E5E7EB;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.2 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15z"/></svg>
+                      <span style="font-size:11px;color:#374151;flex:1;">Call attempted — no answer</span>
+                      <span style="font-size:10px;color:#9CA3AF;">Jul 29</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);font-weight:300;line-height:1.7;">Account view consolidates company-level intent signals with individual contact intelligence, previous interaction history, and role-based buying influence — all in one place. BDRs can now identify the right person and the right moment without leaving the platform.</p>
+    </div>
+
+    <!-- SOLUTION 3 -->
+    <div class="solution-block">
+      <div class="solution-header">
+        <div class="solution-num">03</div>
+        <div class="solution-header-text">
+          <h3>GenAI Email Writer</h3>
+          <p>Jobs addressed: Engage Prospects · Book Meetings</p>
+        </div>
+      </div>
+
+      <!-- 6sense authentic light-theme GenAI email mockup -->
+      <div style="border:1px solid #D1D5DB;border-radius:12px;overflow:hidden;background:#F3F4F6;font-family:'DM Sans',system-ui,sans-serif;">
+        <div style="display:flex;height:420px;">
+          <!-- Sidebar -->
+          <div style="width:44px;background:#0B1E35;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px;flex-shrink:0;">
+            <div style="width:26px;height:26px;background:#1D9E75;border-radius:5px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="white" stroke-width="1.5"/><circle cx="7" cy="7" r="2" fill="white"/></svg>
+            </div>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6A8A" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1D9E75" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <!-- Main -->
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+            <!-- Top bar -->
+            <div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:0 16px;height:40px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6B7280;">
+                <span style="color:#2563EB;cursor:pointer;">Jamie Rosen</span>
+                <span>·</span>
+                <span style="color:#6B7280;">Acme Corp</span>
+                <span>·</span>
+                <span style="background:#EFF6FF;color:#1D4ED8;font-size:9px;font-weight:600;padding:2px 7px;border-radius:100px;">✦ AI Draft</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <div style="border:1px solid #E5E7EB;border-radius:5px;padding:3px 10px;font-size:10px;color:#374151;cursor:pointer;">Discard</div>
+                <div style="background:#1D4ED8;color:#fff;border-radius:5px;padding:3px 10px;font-size:10px;font-weight:500;cursor:pointer;">Send via Outreach</div>
+              </div>
+            </div>
+            <!-- Body -->
+            <div style="flex:1;overflow-y:auto;padding:12px;display:flex;gap:10px;background:#F3F4F6;">
+
+              <!-- Left panel: signals -->
+              <div style="width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;">
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+                    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <span style="font-size:10px;font-weight:600;color:#111827;letter-spacing:0.04em;text-transform:uppercase;">Signals used</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:7px;">
+                    <div style="padding:7px 8px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;">
+                      <div style="font-size:9px;font-weight:600;color:#065F46;margin-bottom:2px;">High intent</div>
+                      <div style="font-size:10px;color:#374151;line-height:1.4;">30-day CRM automation research spike</div>
+                    </div>
+                    <div style="padding:7px 8px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;">
+                      <div style="font-size:9px;font-weight:600;color:#065F46;margin-bottom:2px;">Tech stack</div>
+                      <div style="font-size:10px;color:#374151;line-height:1.4;">Salesforce — integration alignment</div>
+                    </div>
+                    <div style="padding:7px 8px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:6px;">
+                      <div style="font-size:9px;font-weight:600;color:#9A3412;margin-bottom:2px;">Previous touch</div>
+                      <div style="font-size:10px;color:#374151;line-height:1.4;">Aug 14 — email opened, no reply</div>
+                    </div>
+                    <div style="padding:7px 8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;">
+                      <div style="font-size:9px;font-weight:600;color:#1D4ED8;margin-bottom:2px;">Competitor intent</div>
+                      <div style="font-size:10px;color:#374151;line-height:1.4;">Low — not evaluating alternatives</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tone selector -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:12px;">
+                  <div style="font-size:10px;font-weight:600;color:#111827;margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase;">Tone</div>
+                  <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;cursor:pointer;">
+                      <div style="width:14px;height:14px;border-radius:50%;border:2px solid #2563EB;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:6px;height:6px;border-radius:50%;background:#2563EB;"></div></div>
+                      <span style="font-size:11px;color:#1D4ED8;font-weight:500;">Consultative</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;">
+                      <div style="width:14px;height:14px;border-radius:50%;border:2px solid #D1D5DB;flex-shrink:0;"></div>
+                      <span style="font-size:11px;color:#6B7280;">Direct</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;">
+                      <div style="width:14px;height:14px;border-radius:50%;border:2px solid #D1D5DB;flex-shrink:0;"></div>
+                      <span style="font-size:11px;color:#6B7280;">Curious</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right panel: email draft -->
+              <div style="flex:1;background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:0;overflow:hidden;display:flex;flex-direction:column;">
+                <!-- Email header -->
+                <div style="border-bottom:1px solid #E5E7EB;padding:10px 14px;background:#FAFAFA;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+                    <span style="font-size:11px;color:#9CA3AF;width:32px;">To</span>
+                    <span style="font-size:11px;color:#111827;font-weight:500;">Jamie Rosen</span>
+                    <span style="font-size:11px;color:#6B7280;">&lt;jamie.r@acme.com&gt;</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <span style="font-size:11px;color:#9CA3AF;width:32px;">Sub</span>
+                    <span style="font-size:11px;color:#111827;font-weight:500;">CRM workflows at Acme — quick question</span>
+                  </div>
+                </div>
+                <!-- Email body -->
+                <div style="flex:1;padding:14px;font-size:12px;color:#374151;line-height:1.75;overflow-y:auto;">
+                  <p>Hi <strong style="color:#111827;">Jamie</strong>,</p>
+                  <p style="margin:10px 0;">I noticed Acme has been exploring CRM automation quite a bit recently — given the scale of your revenue ops org, I imagine getting clean data flowing between systems is a real priority right now.</p>
+                  <p style="margin:10px 0;">We've helped a few VP-RevOps counterparts at similar-stage SaaS companies cut their manual sync time by 60%+, particularly teams already on Salesforce. Given your setup, the integration would be fairly straightforward.</p>
+                  <p style="margin:10px 0;">Worth a 20-min call to see if it maps to what you're working on? Happy to work around your schedule.</p>
+                  <p style="margin:10px 0;color:#6B7280;">Best,<br>Brian Rudolph<br><span style="color:#2563EB;cursor:pointer;">brian.r@yourcompany.com</span></p>
+                </div>
+                <!-- Email footer toolbar -->
+                <div style="border-top:1px solid #E5E7EB;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#FAFAFA;">
+                  <div style="display:flex;gap:8px;">
+                    <div style="border:1px solid #E5E7EB;border-radius:5px;padding:4px 10px;font-size:10px;color:#374151;cursor:pointer;display:flex;align-items:center;gap:4px;">
+                      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#6B7280" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Regenerate
+                    </div>
+                    <div style="border:1px solid #E5E7EB;border-radius:5px;padding:4px 10px;font-size:10px;color:#374151;cursor:pointer;">Edit manually</div>
+                  </div>
+                  <div style="display:flex;gap:6px;align-items:center;">
+                    <div style="font-size:10px;color:#6B7280;">Add to sequence:</div>
+                    <div style="border:1px solid #E5E7EB;border-radius:5px;padding:4px 10px;font-size:10px;color:#374151;cursor:pointer;">Outreach ▾</div>
+                    <div style="background:#1D4ED8;color:#fff;border-radius:5px;padding:4px 12px;font-size:10px;font-weight:500;cursor:pointer;">Send now</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);font-weight:300;line-height:1.7;">The GenAI email writer transforms 6sense's rich intent data into hyper-personalized outreach — not generic templates. Each email is grounded in verified signals: what the prospect is researching, their tech stack, previous touch history, and competitor intent. Reps can adjust tone and push directly to their SEP of choice.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- KEY INSIGHTS -->
+  <section>
+    <p class="section-label">06 · Design Principles Derived</p>
+    <h2 class="section-title">What guided every decision</h2>
+    <p class="section-body">These four principles emerged from the JTBD synthesis and became the filter for every design review and prioritization decision throughout the project.</p>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <div class="insight-icon ic1">◎</div>
+        <h4>Context before action</h4>
+        <p>BDRs don't just need data — they need synthesized context. Every UI element should tell a rep what to do next, not just show raw signals. Intent without interpretation is noise.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon ic2">⟳</div>
+        <h4>Match the rep's existing motion</h4>
+        <p>6sense lost to LinkedIn Sales Navigator not on data quality, but on workflow fit. The redesign had to embed naturally into how reps already work — not force a new process.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon ic3">◈</div>
+        <h4>Trust is earned with accuracy</h4>
+        <p>Every false positive in intent data destroyed a rep's confidence in the whole platform. Filtering existing customers and subsidiaries, and explaining signal sources, was non-negotiable.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon ic4">↗</div>
+        <h4>Reduce time-to-outreach</h4>
+        <p>The redesign had a single productivity metric: how many minutes between opening 6sense and sending a first contact attempt. Every friction point in the JTBD flow was evaluated against this.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- IMPACT -->
+  <section id="impact">
+    <p class="section-label">07 · Impact & Outcomes</p>
+    <h2 class="section-title">A platform BDRs actually want to open</h2>
+    <p class="section-body">The JTBD framework gave the entire product team — design, engineering, and PM — a shared language for prioritization. Adoption metrics and qualitative feedback from follow-up sessions showed meaningful improvement in both usage and confidence.</p>
+
+    <div class="impact-row">
+      <div class="impact-card">
+        <div class="big">23%→</div>
+        <div class="desc">Adoption rate at project start — the baseline we were designing against</div>
+      </div>
+      <div class="impact-card">
+        <div class="big">6</div>
+        <div class="desc">Validated JTBD statements that became a shared product prioritization framework</div>
+      </div>
+      <div class="impact-card">
+        <div class="big">3</div>
+        <div class="desc">Core design areas shipped — Dashboard, Account Analysis, and GenAI Email</div>
+      </div>
+    </div>
+
+    <div class="quote-block" style="margin-top: 2.5rem;">
+      <p>"This is the first time 6sense has felt like it was actually built for how I work. I used to open it once a week; now it's my first tab in the morning."</p>
+      <cite>— Enterprise BDR, post-launch feedback session</cite>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <h3 style="font-size:1rem;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;">What this research unlocked beyond this project</h3>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.8;max-width:720px;">The JTBD framework became a living artefact adopted by the broader Revenue AI product org. It informed roadmap prioritization across multiple teams, established a baseline for future UX quality measurement, and created a common vocabulary between product, sales, and customer success for discussing user needs — not feature requests.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- REFLECTION -->
+  <section>
+    <p class="section-label">08 · Reflection</p>
+    <h2 class="section-title">What I'd do differently</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
+      <div>
+        <h4 style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:0.5rem;">Expand the sample size earlier</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;font-weight:300;">11 participants captured strong directional findings, but edge cases in international market needs and manager workflows were underrepresented. A second research sprint with manager-focused sessions would have strengthened the "Manage Pipeline" JTBD strand.</p>
+      </div>
+      <div>
+        <h4 style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:0.5rem;">Introduce usability testing earlier in ideation</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;font-weight:300;">The project moved from research directly to design. Rapid concept testing at the low-fidelity stage — before high-fidelity mockups — would have caught information architecture issues earlier and reduced late-stage rework on the account view.</p>
+      </div>
+      <div>
+        <h4 style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:0.5rem;">Define adoption success metrics upfront</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;font-weight:300;">The 23% starting point was a lagging metric. Establishing leading indicators — daily active use, time-to-first-outreach, CRM export completion rates — before launch would have given us cleaner signal on what design changes actually moved the needle.</p>
+      </div>
+      <div>
+        <h4 style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:0.5rem;">Involve BDR Managers as co-designers</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;font-weight:300;">Managers drive adoption through expectation-setting and coaching. Getting manager buy-in on the new workflows — and designing manager-facing views in parallel — would have accelerated user behaviour change at rollout.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="page-wrap">
+  <footer>
+    <p>6sense Revenue AI · Sales Intelligence Redesign · 2024</p>
+    <span class="footer-tag">Confidential — Internal Design Study</span>
+  </footer>
+</div>
+
+</body>
+</html>
