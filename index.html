@@ -1,1254 +1,1410 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="description" content="Manas R Pradhan Portfolio">
-  <meta name="keywords" content="Manas Ranjan Pradhan, Manas, UX Designer, Full Stack Designer, Manas R Portfolio">
-  <meta name="author" content="Manas Ranjan Pradhan">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="imagetoolbar" content="no" />
-	<title>M.R.Pradhan Portfolio</title>
-	<!-- css include -->
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/materialize.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/owl.carousel.min.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/owl.theme.default.min.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/animate.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<!-- my css include -->
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/reset.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/style.css">
-	<link rel="stylesheet" type="text/css" href="./SourceFiles/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manas Ranjan Pradhan — Lead Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --bg-2: #0f0f0f;
+    --bg-3: #161616;
+    --surface: #1c1c1c;
+    --surface-2: #242424;
+    --amber: #E8823A;
+    --amber-light: #F0A060;
+    --amber-dim: rgba(232,130,58,0.12);
+    --amber-dim2: rgba(232,130,58,0.06);
+    --white: #F5F2EE;
+    --white-70: rgba(245,242,238,0.7);
+    --white-40: rgba(245,242,238,0.4);
+    --white-15: rgba(245,242,238,0.08);
+    --border: rgba(245,242,238,0.08);
+    --border-amber: rgba(232,130,58,0.25);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-ui: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    cursor: none;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-ui);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--amber);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: normal;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(232,130,58,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  }
+  .cursor-ring.hover {
+    width: 60px; height: 60px;
+    border-color: var(--amber);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(20px);
+    padding: 18px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--white-70);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    text-decoration: none;
+    border: 1px solid var(--border-amber);
+    padding: 10px 22px;
+    transition: all 0.25s ease;
+  }
+  .nav-cta:hover {
+    background: var(--amber);
+    color: var(--bg);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 60px 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,130,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--amber);
+  }
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 6vw, 88px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.2vw, 28px);
+    font-weight: 300;
+    color: var(--white-70);
+    letter-spacing: 0.02em;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--white-40);
+    max-width: 440px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--amber);
+    padding: 16px 32px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    background: var(--amber-light);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white-70);
+    padding: 16px 0;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.25s ease;
+  }
+  .btn-secondary:hover {
+    color: var(--white);
+    border-color: var(--white-40);
+  }
+
+  /* HERO STATS */
+  .hero-right {
+    opacity: 0;
+    animation: fadeIn 1s 0.9s forwards;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .stat-item {
+    background: var(--bg-2);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+  .stat-item:hover { background: var(--bg-3); }
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 32px;
+    width: 24px; height: 2px;
+    background: var(--amber);
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
+  }
+  .stat-item:hover::before { opacity: 1; width: 40px; }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .stat-number span { color: var(--amber); }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white-40);
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--white-40);
+    margin-top: 4px;
+  }
+
+  /* AI BADGE */
+  .ai-badge {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--amber-dim2);
+    border: 1px solid var(--border-amber);
+    padding: 12px 20px;
+    width: 100%;
+  }
+  .ai-badge-dot {
+    width: 8px; height: 8px;
+    background: var(--amber);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .ai-badge-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 18px 0;
+    background: var(--bg-2);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .marquee-item::after {
+    content: '◆';
+    font-size: 6px;
+    color: var(--amber);
+  }
+
+  /* SECTION BASICS */
+  section { padding: 120px 60px; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--amber);
+  }
+  .section-headline {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+  .section-headline em { font-style: italic; color: var(--amber); }
+
+  /* WORK SECTION */
+  .work-section {
+    padding: 120px 60px;
+    border-top: 1px solid var(--border);
+  }
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+  }
+  .work-link-all {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    transition: all 0.2s;
+  }
+  .work-link-all:hover { color: var(--amber); border-color: var(--amber); }
+
+  .case-studies {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .case-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 260px 160px;
+    gap: 40px;
+    align-items: center;
+    padding: 36px 40px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .case-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--amber);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom;
+  }
+  .case-item:hover {
+    background: var(--bg-3);
+    border-color: var(--border-amber);
+  }
+  .case-item:hover::before { transform: scaleY(1); }
+  .case-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--white-15);
+    letter-spacing: 0.1em;
+  }
+  .case-info {}
+  .case-company {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .case-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .case-desc {
+    font-size: 13px;
+    color: var(--white-40);
+    line-height: 1.6;
+  }
+  .case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+  }
+  .case-outcome {
+    text-align: right;
+  }
+  .outcome-num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--amber);
+    line-height: 1;
+  }
+  .outcome-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    margin-top: 4px;
+  }
+
+  /* AI EXPERTISE */
+  .ai-section {
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 120px 60px;
+  }
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 64px;
+  }
+  .ai-card {
+    background: var(--bg-2);
+    padding: 48px 40px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .ai-card:hover { background: var(--bg-3); }
+  .ai-card-icon {
+    width: 48px; height: 48px;
+    background: var(--amber-dim);
+    border: 1px solid var(--border-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    font-size: 20px;
+  }
+  .ai-card-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    color: var(--white);
+  }
+  .ai-card-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--white-40);
+  }
+  .ai-card-list {
+    margin-top: 20px;
+    list-style: none;
+  }
+  .ai-card-list li {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--white-40);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ai-card-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--amber);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* EXPERIENCE */
+  .exp-section {
+    padding: 120px 60px;
+    border-top: 1px solid var(--border);
+  }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 100px;
+    margin-top: 80px;
+  }
+  .exp-sidebar {}
+  .exp-sidebar-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    margin-bottom: 32px;
+  }
+  .exp-logos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .exp-logo-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white-70);
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .exp-logo-item:hover {
+    background: var(--surface-2);
+    color: var(--white);
+    border-color: var(--border-amber);
+  }
+  .exp-logo-item.active {
+    background: var(--amber-dim);
+    border-color: var(--border-amber);
+    color: var(--amber);
+  }
+  .exp-logo-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .exp-logo-item.active .exp-logo-dot { background: var(--amber); }
+
+  .exp-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .exp-item {
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .exp-period {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: var(--amber-dim);
+    padding: 6px 12px;
+    border: 1px solid var(--border-amber);
+  }
+  .exp-type {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--white-40);
+  }
+  .exp-role {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .exp-company {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--white-40);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .exp-bullets li {
+    font-size: 14px;
+    color: var(--white-40);
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    color: var(--amber);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .exp-outcome-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    background: var(--amber-dim);
+    border: 1px solid var(--border-amber);
+    padding: 8px 16px;
+  }
+
+  /* SKILLS */
+  .skills-section {
+    padding: 120px 60px;
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 64px;
+  }
+  .skill-group {
+    background: var(--bg-2);
+    padding: 40px 36px;
+  }
+  .skill-group-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-amber);
+  }
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .skill-list li {
+    font-size: 13px;
+    color: var(--white-70);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .skill-list li::before {
+    content: '';
+    width: 3px; height: 3px;
+    background: var(--amber);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy-section {
+    padding: 120px 60px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .philosophy-quote {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.25;
+    color: var(--white);
+    position: relative;
+    padding-left: 40px;
+  }
+  .philosophy-quote::before {
+    content: '"';
+    position: absolute;
+    left: 0; top: -10px;
+    font-size: 100px;
+    font-family: var(--font-display);
+    color: var(--amber);
+    opacity: 0.3;
+    line-height: 1;
+  }
+  .philosophy-right {}
+  .philosophy-principles {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .principle-item {
+    padding: 28px 32px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+  .principle-item:hover {
+    background: var(--bg-3);
+    border-color: var(--border-amber);
+  }
+  .principle-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .principle-text {
+    font-size: 14px;
+    color: var(--white-70);
+    line-height: 1.7;
+  }
+  .principle-text strong {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 120px 60px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,130,58,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-headline {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 7vw, 100px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 24px;
+    color: var(--white);
+  }
+  .contact-sub {
+    font-size: 15px;
+    color: var(--white-40);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+  .contact-email {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 32px);
+    font-weight: 300;
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-amber);
+    padding-bottom: 4px;
+    transition: all 0.2s;
+    display: inline-block;
+    margin-bottom: 48px;
+  }
+  .contact-email:hover { border-color: var(--amber); }
+  .contact-links {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-top: 32px;
+  }
+  .contact-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white-40);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-links a:hover { color: var(--amber); }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--white-40);
+  }
+  footer span { color: var(--amber); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 80px; gap: 60px; }
+    .hero-right { order: -1; }
+    section, .work-section, .ai-section, .exp-section, .skills-section { padding: 80px 24px; }
+    .philosophy-section { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+    .contact-section { padding: 80px 24px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .ai-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .exp-grid { grid-template-columns: 1fr; gap: 60px; }
+    .case-item { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
+    .case-num { display: none; }
+    .case-outcome { text-align: left; }
+    footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+    .contact-links { flex-wrap: wrap; gap: 20px; }
+    html { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
 </head>
-
-<body class="clearfix">
-
-	<div section-scroll="0" class="thetop"></div>
-	<!-- for back to top -->
-	<!-- ========== ========== fixed - left side body start ========== ========== -->
-	<div class="fixed-left-side-body">
-		<div class="profile">
-			<div class="profile-image center-align">
-				<img src="./SourceFiles/portrait.png" alt="Image">
-			</div>
-			<!-- /.profile-image -->
-
-			<div class="profile-name center-align">
-				<h1 class="user-name">Manas Ranjan Pradhan</h1>
-				<p>
-					<span class="php-color">Product Designer</span> from India
-				</p>
-			</div>
-			<!-- /.profile-name -->
-
-			<ul class="social-btn">
-				<li>
-					<a href="https://www.instagram.com/mrp.string" target="_blank">
-						<i class="fa fa-instagram" aria-hidden="true"></i>
-					</a>
-				</li>
-				<li>
-					<a href="https://www.facebook.com/bimacknyas" target="_blank">
-						<i class="fa fa-facebook" aria-hidden="true"></i>
-					</a>
-				</li>
-				<li>
-					<a href="https://www.youtube.com/channel/UCFJLt5IKzErg8eLYUof6HFw" target="_blank">
-						<i class="fa fa-youtube" aria-hidden="true"></i>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://www.linkedin.com/in/mrpradhan/" target="_blank">
-						<i class="fa fa-linkedin" aria-hidden="true"></i>
-					</a>
-				</li>
-
-				<li>
-					<a href="http://github.com/bimacknyas" target="_blank">
-						<i class="fa fa-github" aria-hidden="true"></i>
-					</a>
-				</li>
-
-				<li>
-					<a href="https://codepen.io/mrmrp/" target="_blank">
-						<i class="fa fa-codepen" aria-hidden="true"></i>
-					</a>
-				</li>
-			</ul>
-			<!-- /.discription -->
-			<div class="cv-btn">
-				<a href="./SourceFiles/M.R.PradhanResume.pdf" download="M.R.Pradhan Resume.pdf" class="custom-btn waves-effect waves-light secondaryBtn">
-					<i class="fa fa-download" aria-hidden="true"></i>
-					download cv
-				</a>
-			</div>
-		</div>
-		<!-- /.profile -->
-	</div>
-	<!-- /.fixed-left-side-body -->
-	<!-- ========== ========== fixed - left side body end ========== ========== -->
-
-
-	<!-- ========== ========== right side body start ========== ========== -->
-	<div class="right-side-body">
-
-		<!-- ==================== header-section start ==================== -->
-		<header id="header-section" class="header-section mb15 clearfix">
-		<div class="">
-			<nav class="main-nav">
-				<div class="nav-wrapper main-nav-wrapper">
-					<!-- <div class="wrapStage widthChg">
-						<div class="stage">
-							<div class="wrapper">
-									<div class="slash"></div>
-									<div class="sides">
-											<div class="side"></div>
-											<div class="side"></div>
-											<div class="side"></div>
-											<div class="side"></div>
-									</div>
-									<div class="text">
-											<div class="text--backing">MRP</div>
-											<div class="text--left">
-													<div class="inner">MRP</div>
-											</div>
-											<div class="text--right">
-													<div class="inner">MRP</div>
-											</div>
-									</div>
-							</div>
-						</div>
-					</div> -->
-					<ul class="alternative-menu ul-li responsive_menu_fixed menu_fixed">
-
-						<!--<li class="alt-search-area">
-							<form action="http://www.webstrot.com/html/tm/hello/01_hello_light/index.html#">
-								<input class="alternative-search" type="search" placeholder="search">
-								<button><i class="fa fa-search"></i></button>
-							</form>
-						</li>-->
-						<li>
-							<div class="wrapStage widthChg">
-								<div class="stage">
-									<div class="wrapper">
-											<div class="slash"></div>
-											<div class="sides">
-													<div class="side"></div>
-													<div class="side"></div>
-													<div class="side"></div>
-													<div class="side"></div>
-											</div>
-											<div class="text">
-													<div class="text--backing">MRP</div>
-													<div class="text--left">
-															<div class="inner">MRP</div>
-													</div>
-													<div class="text--right">
-															<div class="inner">MRP</div>
-													</div>
-											</div>
-									</div>
-								</div>
-							</div>
-						</li>
-						<li class="side-menu-btn right">
-							<a href="#" class="button-collapse waves-effect default" data-activates="mobile-demo">
-								<i class="fa fa-bars" aria-hidden="true"></i>
-							</a>
-						</li>
-					</ul>
-					<!-- /.alternative-menu -->
-				<div class=" hello_icon_menu hello_single_index_menu1">
-					<ul class="ul-li-block side-nav" id="mobile-demo" style="transform: translateX(-100%);">
-
-						<li class="sn-user active">
-							<span class="sn-user-img">
-								<img src="./SourceFiles/smallImage.jpg" alt="Image">
-							</span>
-							<span class="sn-user-name">
-								Manas R Pradhan
-							</span>
-							<a href="./SourceFiles/M.R.PradhanResume.pdf" download="M.R.PradhanResume.pdf" class="sn-cv-link common-color">download cv</a>
-						</li>
-						<!-- /.sn-user -->
-
-						<li class="sn-item">
-							<a href="0" class="waves-effect">
-								<i class="fa fa-home" aria-hidden="true"></i>
-								Home
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="1" class="waves-effect">
-								<i class="fa fa-user" aria-hidden="true"></i>
-								About
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="2" class="waves-effect">
-								<i class="fa fa-pencil" aria-hidden="true"></i>
-								Skills
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="3" class="waves-effect">
-								<i class="fa fa-id-badge" aria-hidden="true"></i>
-								Experience
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="4" class="waves-effect">
-								<i class="fa fa-briefcase" aria-hidden="true"></i>
-								Portfolio
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="5" class="waves-effect">
-								<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-								Education
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="6" class="waves-effect">
-								<i class="fa fa-quote-left" aria-hidden="true"></i>
-								Philosophy
-							</a>
-						</li>
-						<li class="sn-item">
-							<a href="7" class="waves-effect">
-								<i class="fa fa-envelope" aria-hidden="true"></i>
-								Contact
-							</a>
-						</li>
-					</ul>
-				</div>
-					<div class="hello_main_navigation hello_single_index_menu2">
-						<ul id="nav-mobile" class="right main-nav-ul">
-							<li class="active"><a href="0" class="nav-mobile">home</a></li>
-							<li class=""><a href="1" class="waves-effect default">about</a></li>
-							<li class=""><a href="2" class="waves-effect default">skill</a></li>
-							<li class=""><a href="3" class="waves-effect default">exprience</a></li>
-							<li class=""><a href="4" class="waves-effect default">portfolio</a></li>
-							<li class=""><a href="5" class="waves-effect default">education</a></li>
-							<li class=""><a href="6" class="waves-effect default">philosophy</a></li>
-							<li class=""><a href="7" class="waves-effect default">contact</a></li>
-							<!--<li>
-								<a href="http://www.webstrot.com/html/tm/hello/01_hello_light/0" class="waves-effect default cd-search-trigger">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</a>
-							</li>-->
-						</ul>
-					</div>
-
-					<!-- /.main-nav-ul -->
-				<div class="hello_menu_fixed_main_wrapper show" style="display: none;">
-					<div class="row">
-						<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-							<div class="wrapStage">
-								<div class="stage">
-							    <div class="wrapper">
-							        <div class="slash"></div>
-							        <div class="sides">
-							            <div class="side"></div>
-							            <div class="side"></div>
-							            <div class="side"></div>
-							            <div class="side"></div>
-							        </div>
-							        <div class="text">
-							            <div class="text--backing">MRP</div>
-							            <div class="text--left">
-							                <div class="inner">MRP</div>
-							            </div>
-							            <div class="text--right">
-							                <div class="inner">MRP</div>
-							            </div>
-							        </div>
-							    </div>
-								</div>
-							</div>
-						</div> -->
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-							<div class="hello_fixed_nav_wrapper hello_single_index_menu3">
-								<ul class="hello_nav_fixed">
-									<li class="active"><a href="0" class="nav-mobile">home</a></li>
-									<li class=""><a href="1" class="waves-effect default">about</a></li>
-									<li class=""><a href="4" class="waves-effect default">portfolio</a></li>
-									<li class=""><a href="2" class="waves-effect default">skill</a></li>
-									<li class=""><a href="3" class="waves-effect default">exprience</a></li>
-									<li class=""><a href="5" class="waves-effect default">education</a></li>
-									<li class=""><a href="6" class="waves-effect default">Philosophy</a></li>
-									<li class=""><a href="7" class="waves-effect default">contact</a></li>
-									<!--<li>
-										<a href="http://www.webstrot.com/html/tm/hello/01_hello_light/0" class="waves-effect default cd-search-trigger">
-											<i class="fa fa-search" aria-hidden="true"></i>
-										</a>
-									</li>-->
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-				<!-- /.main-nav-wrapper -->
-			</nav>
-			</div>
-
-		</header>
-		<!-- /#header-section -->
-		<!-- ==================== header-section end ==================== -->
-
-
-
-
-
-		<!-- ==================== main-hero-section start ==================== -->
-		<section class="heroSection sec-p100-bg-bs mb15 clearfix">
-			<div class="helloWrap">
-			<div class="">HELL</div>
-			<div id="wrap">
-				<div id="wrap-inner">
-					<i></i>
-				</div>
-			</div>
-			</div>
-			<div class="desc">
-			I am a <span class="btnYlw">User Experience Designer</span> | <span class="btnRed">Product Designer</span> with a passion for creating easy-to-use and intuitive Design with a great end user experience and converting that design to reality with a pixel perfect code. Around Eight Years of experience in UX Design/ Product Design/ Full Stack Designing With 40+ Projects Successfuly Done!
-			<br/><br/>I transform Complex problems into elegant solutions using visual design, rapid prototyping, and interaction skills.
-			<div class="hireBtn">
-				<a href="mailto:mrpradhanonline@gmail.com?Subject=Job%20opportunity" target="_top" class="hire-me waves-effect">
-					<i class="fa fa-envelope-o" aria-hidden="true"></i> Let's Discuss
-				</a>
-			</div>
-			</div>
-		</section>
-		<!-- ==================== main-hero-section end ==================== -->
-
-
-
-
-		<!-- ==================== aboutme-section start ==================== -->
-		<section section-scroll="1" class="aboutme-section sec-p100-bg-bs mb-30 clearfix" id="about">
-			<div class="Section-title">
-				<h2>
-					about me
-				</h2>
-				<span>about me</span>
-				<p>I am a UX designer/ Product Designer from Bangalore, India. I build awesome things for Mobile and Web by sketching, Crafting and ideating the experience for the user. I work across User Research, Information Architecture, Experience Map and Interactive prototyping to craft a product that is incredibly easy and delightful to use.
-				</p><br/>
-				<p>As a Full Stack designer, I understand the user interface should look perfect and work even better. I always think from a user’s perspective, because I believe a product is meaningful only when people truly love it.
-				</p>
-			</div>
-			<!-- /.Section-title -->
-			<h5 class="title">My Design Approach</h5>
-			<div class="personal-details-area">
-				<div class="row">
-					<div class="col l12 m12 s12">
-						<div class="personal-details-left">
-							<ul class="service-list ul-li">
-								<li class="logodesign">
-									<p class="service-list">Stakeholder Map</p>
-									<p class="service-list">Interviews/Surveys</p>
-									<p class="service-list">Persona</p>
-									<p class="service-list">User Journey Map</p>
-									<p class="service-list">UX Assessments</p>
-									<span class="service-name"><span class="step">01</span> Understand</span>
-								</li>
-								<li class="website">
-									<p class="service-list">Concept Ideation</p>
-									<p class="service-list">Paper Prototype</p>
-									<p class="service-list">Information Architecture</p>
-									<p class="service-list">Site Map</p>
-									<span class="service-name"><span class="step">02</span> Ideation</span>
-								</li>
-								<li class="softwares">
-									<p class="service-list">Low Fidelity Prototype</p>
-									<p class="service-list">High Fidelity Prototype</p>
-									<p class="service-list">Interaction Design</p>
-									<p class="service-list">Interactive Prototype</p>
-									<span class="service-name"><span class="step">03</span> Design</span>
-								</li>
-								<li class="applications">
-									<p class="service-list">Heuristic Evaluation </p>
-									<p class="service-list">Usability Testing</p>
-									<p class="service-list">SUS Score</p>
-									<span class="service-name"><span class="step">04</span> Evaluation</span>
-								</li>
-							</ul>
-							<!-- /.service-list -->
-						</div>
-						<!-- /.personal-details-left -->
-					</div>
-
-				</div>
-				<!-- row -->
-			</div>
-		</section>
-		<!-- /.aboutme-section -->
-		<!-- ==================== aboutme-section end ==================== -->
-
-		<!-- ==================== my-portfolio-section start ==================== -->
-		<section section-scroll="4" class="my-portfolio-section sec-p100-bg-bs mb-30 clearfix" id="portfolio">
-
-			<div class="Section-title">
-				<h2>
-					My Portfolio
-				</h2>
-				<span>My Portfolio</span>
-			</div>
-			<!-- /.Section-title -->
-
-			<div class="portfolio-area">
-
-				<div id="filters" class="button-group">
-					<button class="button waves-effect default is-checked" data-filter="*">all</button>
-					<button class="button waves-effect default" data-filter=".alkali, .alkaline-earth">applications</button>
-					<button class="button waves-effect default" data-filter=".transition">websites</button>
-					<button class="button waves-effect default" data-filter=".metal">logos</button>
-					<!--<button class="button waves-effect default" data-filter=":not(.transition)">softwars</button>-->
-
-				</div>
-
-				<div class="grid">
-					<div class="element-item alkali" data-category="post-transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/ZTNAThumbnail.svg" alt="Image">
-							<a href="#ztna" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-
-					<div class="element-item alkali" data-category="post-transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/SIThumbnail.svg" alt="Image">
-							<a href="#SI" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					
-					<div class="element-item alkali metal" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/WPThumbnail.svg" alt="Image">
-							<a href="#workplace" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item alkali metal" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/HOSThumbnail.svg" alt="Image">
-							<a href="#HOS" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item alkali metal" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/GamePlayThumbnail.svg" alt="Image">
-							<a href="#GamePlay" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item alkali metal" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-7.jpg" alt="Image">
-							<a href="#aircore" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item alkali" data-category="post-transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-3.jpg" alt="Image">
-							<a href="#tax" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item metal" data-category="transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-1.jpg" alt="Image">
-							<a href="#ued" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item transition metal" data-category="transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-5.jpg" alt="Image">
-							<a href="#uix" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<!-- <div class="element-item alkali" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-6.jpg" alt="Image">
-							<a href="#pmodel" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div> -->
-					<div class="element-item alkali metal transition" data-category="alkali">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-8.jpg" alt="Image">
-							<a href="#petshop" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item transition metal" data-category="post-transition">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-9.jpg" alt="Image">
-							<a href="#dems" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="element-item transition metal" data-category="metalloid">
-						<div class="ei-child">
-							<img src="./SourceFiles/img-2.jpg" alt="Image">
-							<a href="#goi" class="more waves-effect waves-light modal-trigger">
-								<i class="fa fa-plus" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- /.grid -->
-
-				<!--Start: Popup -->
-				<div id="ztna" class="modal modal-fixed-footer">
-					<div class="modal-content loader">
-						<div class="ztnaBck"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				<div id="SI" class="modal modal-fixed-footer">
-					<div class="modal-content loader">
-						<div class="siBck"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				
-				<div id="workplace" class="modal modal-fixed-footer">
-					<div class="modal-content loader">
-						<div class="wrkpcBck"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				<div id="HOS" class="modal modal-fixed-footer">
-					<div class="modal-content loader">
-						<div class="HOSBck"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				<div id="GamePlay" class="modal modal-fixed-footer">
-					<div class="modal-content loader">
-						<div class="GamePlayBck"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				<div id="ued" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>User Experience & Design Team Portal</h5>
-						<p class="pt10">Branding | Inormation Architecture | Visual Design | UI Developement | Sharepoint</p>
-						<div>
-							<h5 class="title">Brand Design</h5>
-							<img src="SourceFiles/portfolio/ued1.png" alt="ued logo" galleryimg="no" />
-							<h5 class="title">Visual Design</h5>
-							<img src="SourceFiles/portfolio/ued2.png" alt="ued portal"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="goi" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>GOI News Portal</h5>
-						<p class="pt10">Branding | Inormation Architecture | Wordpress</p>
-						<div>
-							<h5 class="title">Brand Design</h5>
-							<img src="SourceFiles/portfolio/goi1.png" alt="goi logo"/>
-							<h5 class="title">Wordpress Developement</h5>
-							<img src="SourceFiles/portfolio/goi2.png" alt="goi portal"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="tax" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>Tax Portal</h5>
-						<p class="pt10">Competative Research | Inormation Architecture | Persona | User Journey Map | Low Fidelity Prototype | Visual Design</p>
-						<div>
-							<h5 class="title">Visual Designs</h5>
-							<img src="SourceFiles/portfolio/tax1.jpg" alt="goi logo"/>
-							<img src="SourceFiles/portfolio/tax2.jpg" alt="goi logo"/>
-							<img src="SourceFiles/portfolio/tax3.jpg" alt="goi logo"/>
-							<img src="SourceFiles/portfolio/tax4.jpg" alt="goi logo"/>
-							<img src="SourceFiles/portfolio/tax5.jpg" alt="goi logo"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="udio" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>Tax Portal</h5>
-						<p class="pt10">Competative Research | Site Map | Low Fidelity Prototype | Visual Design | Mobile</p>
-						<div>
-							<h5 class="title">Visual Designs</h5>
-							<img src="SourceFiles/portfolio/udio1.jpg" alt="udio"/>
-							<img src="SourceFiles/portfolio/udio2.jpg" alt="udio"/>
-							<img src="SourceFiles/portfolio/udio3.jpg" alt="udio"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="uix" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>Tax Portal</h5>
-						<p class="pt10">Competative Research | Site Map | Low Fidelity Prototype | Visual Design | UI Developement</p>
-						<div>
-							<h5 class="title">Brand Design</h5>
-							<img src="SourceFiles/portfolio/uix1.png" alt="goi logo"/>
-							<h5 class="title">Visual Designs</h5>
-							<img src="SourceFiles/portfolio/uix2.png" alt="udio"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="pmodel" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>PModel</h5>
-						<p class="pt10">Competative Research | Inormation Architecture | Persona | User Journey Map | Low Fidelity Prototype | Visual Design | Responsive Design</p>
-						<div>
-							<h5 class="title">Visual Designs</h5>
-							<img src="SourceFiles/portfolio/pmodel1.png" alt="udio"/>
-							<img src="SourceFiles/portfolio/pmodel2.png" alt="udio"/>
-							<img src="SourceFiles/portfolio/pmodel3.png" alt="udio"/>
-							<img src="SourceFiles/portfolio/pmodel4.png" alt="udio"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="petshop" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>Petshop Ecommerce</h5>
-						<p class="pt10">Competative Research | Visual Design | Responsive Design</p>
-						<div>
-							<h5 class="title">Visual Design</h5>
-							<img src="SourceFiles/portfolio/petshop.jpg" alt="udio"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="dems" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>DEMS</h5>
-						<p class="pt10">Competative Research| wireframes | Visual Design | Responsive Design</p>
-						<div>
-							<h5 class="title">Visual Design</h5>
-							<img src="SourceFiles/portfolio/dems.jpg" alt="dems"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-
-				<div id="aircore" class="modal modal-fixed-footer">
-					<div class="modal-content">
-						<h5>PModel</h5>
-						<p class="pt10">Competative Research | Use Case | Persona | User Journey Map | Low Fidelity Prototype | Visual Design</p>
-						<div>
-							<h5 class="title">Use Case</h5>
-							<img src="SourceFiles/portfolio/aircore1.png" alt="udio"/>
-							<h5 class="title">Low Fidelity Prototype</h5>
-							<img src="SourceFiles/portfolio/aircore2.png" alt="udio"/>
-							<h5 class="title">Visual Designs</h5>
-							<img src="SourceFiles/portfolio/aircore3.png" alt="udio"/>
-							<img src="SourceFiles/portfolio/aircore4.png" alt="udio"/>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-					</div>
-				</div>
-				<!--End: Popup -->
-
-			</div>
-			<!-- /.portfolio-area -->
-
-		</section>
-		<!-- /.my-portfolio-section -->
-		<!-- ==================== my-portfolio-section end ==================== -->
-
-		<!-- ==================== my-skill-section start ==================== -->
-		<section section-scroll="2" class="my-skill-section sec-p100-bg-bs mb-30 clearfix" id="skill">
-			<div class="Section-title">
-				<h2>
-					My Skills
-				</h2>
-				<span>My Skills</span>
-			</div>
-			<!-- /.Section-title -->
-
-			<div class="professional-skills-area">
-				<ul class="tabs skills-tab ul-li">
-					<li class="tab tag-item tag-icon">
-						<i class="fa fa-tags" aria-hidden="true"></i>
-					</li>
-					<li class="tab tag-item"><a href="#" class="active">Apple Human Interface</a></li>
-					<li class="tab tag-item"><a href="#">Google Material Design</a></li>
-					<li class="tab tag-item"><a href="#">Microsoft Fluent Design</a></li>
-				</ul>
-				<div>
-					<h5 class="title">UX Design</h5>
-
-					<div class="skill_progress">
-
-						<div class="row">
-							<div class="col l6 m6 s12">
-								<div class="single_experties">
-									<div class="skilled-tittle">User Interview/ Surveys</div>
-									<div class="progress">
-										<div class="progress-bar photoshop-bg wow Rx-width-75 animated" role="progressbar" data-wow-duration="0.5s" data-wow-delay=".5s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="photoshop-color">75%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-								<div class="single_experties">
-									<div class="skilled-tittle">Persona/ User Journey Map</div>
-									<div class="progress">
-										<div class="progress-bar photoshop-bg wow Rx-width-75 animated" role="progressbar" data-wow-duration="0.5s" data-wow-delay=".5s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="photoshop-color">75%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-
-								<div class="single_experties">
-									<div class="skilled-tittle">Visul Design</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-95 animated" role="progressbar" data-wow-duration="1s" data-wow-delay=".15s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">95%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-
-								<div class="single_experties">
-									<div class="skilled-tittle">Interaction Design</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-95 animated" role="progressbar" data-wow-duration="1s" data-wow-delay=".15s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">95%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-
-								<div class="single_experties">
-									<div class="skilled-tittle">Clickable Prototype</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-95 animated" role="progressbar" data-wow-duration="1s" data-wow-delay=".15s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">95%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-							</div>
-							<!-- colm6 -->
-
-							<div class="col l6 m6 s12">
-								<div class="single_experties">
-									<div class="skilled-tittle">IA/ Sitemaps</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-80 animated" role="progressbar" data-wow-duration="1.5s" data-wow-delay=".25s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">80%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-								<div class="single_experties">
-									<div class="skilled-tittle">Concept Ideation/ Wireframes</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-90 animated" role="progressbar" data-wow-duration="1.5s" data-wow-delay=".25s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">90%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-								<div class="single_experties">
-									<div class="skilled-tittle">Heuristic Evaluation</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-90 animated" role="progressbar" data-wow-duration="0.5s" data-wow-delay=".5s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">90%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-								<div class="single_experties">
-									<div class="skilled-tittle">Usability Testing</div>
-									<div class="progress">
-										<div class="progress-bar jquery-bg wow Rx-width-80 animated" role="progressbar" data-wow-duration="0.5s" data-wow-delay=".5s" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-											<span class="jquery-color">80%</span>
-										</div>
-									</div>
-								</div>
-								<!-- /single_experties -->
-							</div>
-							<!-- colm6 -->
-						</div>
-						<!-- row -->
-
-					</div>
-					<!-- /.skill_progress -->
-				</div>
-
-			</div>
-			<!-- /.professional-skills-area -->
-			<div class="professional-skills-area tools">
-			<h5 class="title">Tools</h5>
-			<ul class="tabs skills-tab ul-li">
-				<li class="tab tag-item"><a href="#">Sketch</a></li>
-				<li class="tab tag-item"><a href="#" class="active">Adobe CC</a></li>
-				<li class="tab tag-item"><a href="#">Figma</a></li>
-				<li class="tab tag-item"><a href="#">InVision</a></li>
-				<li class="tab tag-item"><a href="#">Adobe XD</a></li>
-				<li class="tab tag-item"><a href="#">DW/Atom</a></li>
-				<li class="tab tag-item"><a href="#">Premiere Pro</a></li>
-				<li class="tab tag-item"><a href="#">After Effects</a></li>
-			</ul>
-			</div>
-
-			<div class="professional-skills-area tools">
-			<h5 class="title">Languages</h5>
-			<ul class="tabs skills-tab ul-li">
-				<li class="tab tag-item"><a href="#">ENGLISH</a></li>
-				<li class="tab tag-item"><a href="#">HINDI</a></li>
-				<li class="tab tag-item"><a href="#">ODIA</a></li>
-			</ul>
-			</div>
-
-			<!-- <div class="languages-skills">
-				<h5 class="title">languages skills</h5>
-				<div class="row">
-					<div class="col l6 m12 s12">
-						<div class="lang-skill-right">
-							<div class="skill-piechart">
-								<div class="second circle"><canvas width="120" height="120"></canvas>
-									<strong>ENGLISH</strong>
-								</div>
-							</div>
-							<div class="skill-piechart">
-								<div class="first circle"><canvas width="120" height="120"></canvas>
-									<strong>HINDI</strong>
-								</div>
-							</div>
-							<div class="skill-piechart">
-								<div class="first circle"><canvas width="120" height="120"></canvas>
-									<strong>ODIA</strong>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div> -->
-			<!-- /.languages-skills -->
-
-		</section>
-		<!-- /.my-skill-section -->
-		<!-- ==================== my-skill-section end ==================== -->
-
-
-		<!-- ==================== experience-section start ==================== -->
-		<section section-scroll="3" class="experience-section sec-p100-bg-bs mb-30 clearfix" id="exprience">
-
-			<div class="Section-title">
-				<h2>
-					Work Experience
-				</h2>
-				<span>Work Experience</span>
-			</div>
-			<!-- /.Section-title -->
-
-			<div class="row">
-				<div class="col l12 m12 s12">
-					<div class="experience-left">
-						<div class="experience-left-item-area">
-							<div class="border-left">
-								<div class="experience-item exp3">
-									<h2 class="title">User Experience Designer at McAfee</h2>
-									<ul class="post-mate ul-li">
-										<li class="html5-color">Nov 2020 - Till Date<!--<span class="current photoshop-bg">Current</span>--></li>
-									</ul>
-									<!-- /.post-mate -->
-									<p>
-										Combine Design thinking with Human-Centered design execution, to produce usable and intuitive user interfaces.
-										Translate business and user needs and technology constraints into solution concepts that are meaningful, easy to use, and engaging.
-										collaborate with Researchers, PMs, and Engineering Leads to identify user needs.
-										Design journey maps, navigation design, sitemaps, information architecture, wireframes, storyboards, and prototypes.
-									</p>
-								</div>
-								<div class="experience-item exp1">
-									<h2 class="title">UX Design Specialist at HONEYWELL</h2>
-									<ul class="post-mate ul-li">
-										<li class="php-color">Jul 2018 - Nov 2020<!--<span class="current photoshop-bg">Current</span>--></li>
-									</ul>
-									<!-- /.post-mate -->
-									<p>
-										Combine Design thinking with Human-Centered design execution, to produce usable and intuitive user interfaces.
-										Translate business and user needs and technology constraints into solution concepts that are meaningful, easy to use, and engaging.
-										Plan and conduct user research and competitor analysis to identify user needs.
-										Design journey maps, navigation design, sitemaps, information architecture, wireframes, storyboards, and prototypes.
-										Organize Usability Testing for design validation and calculate SUS score.
-									</p>
-								</div>
-								<div class="experience-item exp2">
-									<h2 class="title">Full Stack Designer at UNISYS</h2>
-									<ul class="post-mate ul-li">
-										<li class="jquery-color">Jan 2016 - Jul 2018<!--<span class="current photoshop-bg">Current</span>--></li>
-									</ul>
-									<!-- /.post-mate -->
-									<p>
-										Execute user-centered design processes to prepare user personas,
-use-case scenarios and high quality user interaction workflows,
-reusable assets and wireframes.
-Support to establish product direction plus user experience needs
-on basis of business as well as user/customer requirements.
-Implemented newly improved information architecture to design
-UI screens including wireframes and storyboards.
-Translate Business Requirements into User-friendly Interfaces.
-Delivered high-fidelity and Functional prototypes with guidelines
-to implement.
-									</p>
-								</div>
-								<!-- /.experience-item -->
-
-								<div class="experience-item exp3">
-									<h2 class="title">UX Developer at Infosys</h2>
-									<ul class="post-mate ul-li">
-										<li class="html5-color">Nov 2014 - Dec 2015</li>
-									</ul>
-									<!-- /.post-mate -->
-									<p>
-										Implemented newly improved information architecture to design UI screens, including wireframes and storyboards, for presentation to Integrated Product Team members, managers, and customers.
-UX Requirements Gathering: Use Cases, Navigation Mapping, Page Flow, Design Patterns, Branding Standards, Wireframes, Mock-ups and Functional Prototypes.
-Translate Business Requirements into User-friendly Interfaces.
-Standardize UI Framework and UX Across Devices
-Design Interface and Translate Mockups into HTML Deliverables.
-									</p>
-								</div>
-								<!-- /.experience-item -->
-
-								<div class="experience-item exp4">
-									<h2 class="title">Software Consultant at ECIL-Rapiscan Ltd</h2>
-									<ul class="post-mate ul-li">
-										<li class="html5-color">Jan 2012 - Mar 2014</li>
-									</ul>
-									<!-- /.post-mate -->
-									<p>
-										Provide vigorously support and initiated to improve complex screens user experience.
-Provided high level guidelines with mock up screens about ui components to improve user experience on complex screens.
-Delivered high-fidelity and Functional prototypes with guidelines to implement.
-Developed the interfaces using HTML5, CSS3, jQuery with static data.
-Handling cross browser/platform compatibility issues.
-									</p>
-								</div>
-								<!-- /.experience-item -->
-
-							</div>
-							<!-- border-left -->
-						</div>
-						<!-- /.experience-left-item-area -->
-
-					</div>
-					<!-- /.experience-left -->
-				</div>
-				<!-- colm12 -->
-			</div>
-			<!-- row -->
-
-		</section>
-		<!-- /.experience-section -->
-		<!-- ==================== experience-section end ==================== -->
-
-
-
-		<!-- ==================== education-section start ==================== -->
-		<section section-scroll="5" class="education-section sec-p100-bg-bs mb-30 clearfix" id="education">
-
-			<div class="Section-title">
-				<h2>
-					education & Certification
-				</h2>
-				<span>education</span>
-			</div>
-			<!-- /.Section-title -->
-
-			<ul class="accordion collapsible" data-collapsible="accordion">
-				<li>
-					<div class="accordion-header acco-clr1 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>The Science and Art of Effective Web and Application Design</strong> | Human Factors International, 2019
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="accordion-header acco-clr1 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>User-Centered Analysis & Conceptual Design</strong> | Human Factors International, 2017
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="accordion-header acco-clr1 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>User Experience Foundation</strong> | Human Factors International, 2017
-						</p>
-					</div>
-				</li>
-
-				<li>
-					<div class="accordion-header acco-clr2 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>Gamification: Creating Addictive User Experience</strong> | Interaction Design Foundation, 2017
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="accordion-header acco-clr2 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>Web Design for Usability</strong> | Interaction Design Foundation, 2017
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="accordion-header acco-clr2 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-certificate" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>Design Thinking</strong> | Unicom, 2017
-						</p>
-					</div>
-				</li>
-
-				<li>
-					<div class="accordion-header acco-clr3 collapsible-header">
-						<span class="icon">
-							<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-						</span>
-						<p>
-							<strong>bachelor of technology in Electronics & Telecommunication Engineering</strong> | BPUT, 2007 - 2011
-						</p>
-					</div>
-				</li>
-			</ul>
-
-		</section>
-		<!-- /.education-section -->
-		<!-- ==================== education-section end ==================== -->
-
-
-		<!-- ==================== testomonials-section start ==================== -->
-		<section section-scroll="6" class="testomonials-section sec-p100-bg-bs mb-30 clearfix" id="testimonial">
-
-			<div class="Section-title">
-				<h2>
-					Design Philosophy
-				</h2>
-				<span>Design Philosophy</span>
-				<p>
-					People who inspires me for iterations and rapid prototyping.
-				</p>
-			</div>
-
-			<ul class="brand-list ul-li">
-				<li>
-					<img src="./SourceFiles/einstein.png" alt="Brand Image">
-					<p>The best design is the simplest one that works</p>
-				</li>
-				<li>
-					<img src="./SourceFiles/steve.png" alt="Brand Image">
-					<p>Design is not just what it looks like and feels like. Design is how it works</p>
-				</li>
-				<li>
-					<img src="./SourceFiles/don.png" alt="Brand Image">
-					<p>No single design is apt to be optimal for everyone</p>
-				</li>
-			</ul>
-
-			<!--<div class="row brand-list ul-li">
-				<div class="col l4 m4 s12 li">
-						<img src="./SourceFiles/einstein.png" alt="Brand Image">
-						<p>The best design is the simplest one that works</p>
-				</div>
-				<div class="col l4 m4 s12 li">
-						<img src="./SourceFiles/steve.png" alt="Brand Image">
-						<p>Design is not just what it looks like and feels like. Design is how it works</p>
-				</div>
-				<div class="col l4 m4 s12 li">
-						<img src="./SourceFiles/don.png" alt="Brand Image">
-						<p>No single design is apt to be optimal for everyone</p>
-				</div>
-			</div>-->
-
-		</section>
-		<!-- /.testomonials-section -->
-		<!-- ==================== testomonials-section end ==================== -->
-
-
-
-
-
-
-
-		<!-- ==================== contact-me-section start ==================== -->
-		<section section-scroll="7" class="contact-me-section sec-p100-bg-bs clearfix" id="contact">
-
-			<div class="Section-title">
-				<h2>
-					contact me
-				</h2>
-				<span>contact me</span>
-			</div>
-			<!-- /.Section-title -->
-
-			<div class="row">
-				<div class="col l4 m4 s12">
-						<div class="cont-item cBox">
-							<i class="fa fa-envelope-o" aria-hidden="true"></i>
-							<h2 class="title">Email</h2>
-							<div class="">
-								<p>mrpradhanonline@gmail.com</p>
-							</div>
-						</div>
-				</div>
-				<div class="col l4 m4 s12">
-						<div class="cont-item cBox">
-							<i class="fa fa-mobile" aria-hidden="true"></i>
-							<h2 class="title">Phone</h2>
-							<div class="">
-								<p>+91-9035617437</p>
-							</div>
-						</div>
-				</div>
-				<div class="col l4 m4 s12">
-						<div class="cont-item cBox">
-							<i class="fa fa-map-marker" aria-hidden="true"></i>
-							<h2 class="title">address</h2>
-							<div class="">
-								<p>Bangalore, India</p>
-							</div>
-						</div>
-				</div>
-			</div>
-			<!-- row -->
-			<div class="hireBtn">
-				<a href="mailto:mrpradhanonline@gmail.com?Subject=Job%20opportunity" target="_top" class="hire-me waves-effect">
-					<i class="fa fa-envelope-open" aria-hidden="true"></i> Let's Discuss
-				</a>
-			</div>
-
-		</section>
-		<!-- /.contact-me-section -->
-		<!-- ==================== contact-me-section end ==================== -->
-
-
-
-
-
-		<!-- ==================== footer-section start ==================== -->
-		<footer id="footer-section" class="footer-section clearfix">
-			<p>
-				© 2017 <a href="#" class="php-color">Manas Ranjan Pradhan</a>
-			</p>
-
-			<div class="backtotop">
-				<a href="#" class="scroll">
-					<i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-				</a>
-			</div>
-			<!-- backtotop -->
-		</footer>
-		<!-- /.footer-section -->
-		<!-- ==================== footer-section end ==================== -->
-	</div>
-	<!-- ========== ========== right side body end ========== ========== -->
-
-
-
-
-
-
-
-
-
-
-	<!-- jquery and bootstrap.js -->
-	<script type="text/javascript" src="./SourceFiles/jquery-3.1.1.min.js.download"></script>
-	<script type="text/javascript" src="./SourceFiles/materialize.min.js.download"></script>
-	<script type="text/javascript" src="./SourceFiles/smoothscroll.js.download"></script>
-	<script type="text/javascript" src="./SourceFiles/owl.carousel.min.js.download"></script>
-	<script type="text/javascript" src="./SourceFiles/isotope.pkgd.min.js.download"></script>
-	<script type="text/javascript" src="./SourceFiles/circle-progress.js.download"></script>
-
-	<!-- <script type="text/javascript" src="http://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
-
-	<!-- my custom js -->
-	<script type="text/javascript" src="./SourceFiles/custom.js.download"></script>
-
-
-
-<div class="hiddendiv common"></div><div class="drag-target" data-sidenav="mobile-demo" style="touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); left: 0px;"></div></body></html>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">M<span>.</span>R<span>.</span>Pradhan</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#ai">AI Design</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+  </ul>
+  <a href="mailto:mrpradhanonline@gmail.com" class="nav-cta">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Staff Product Designer · Bangalore, India</div>
+    <h1 class="hero-name">Manas<br><em>Ranjan</em><br>Pradhan</h1>
+    <p class="hero-title">Designing scalable, data-driven <br>products for global users. </p>
+    <p class="hero-desc">10+ years shaping product strategy and UX at enterprise scale — from security platforms to AI-native interfaces. I lead with research, build with precision, and measure everything that matters.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">View Selected Work</a>
+      <a href="./SourceFiles/M.R.Pradhan_Resume.pdf" class="btn-secondary">Download CV ↗</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">10<span>+</span></div>
+        <div class="stat-label">Years of Practice</div>
+        <div class="stat-sub">Enterprise & Consumer</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">17<span>+</span></div>
+        <div class="stat-label">Products Shipped</div>
+        <div class="stat-sub">Across 5 industries</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Global Brands</div>
+        <div class="stat-sub">McAfee · Honeywell · Unisys</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3<span>M+</span></div>
+        <div class="stat-label">Users Impacted</div>
+        <div class="stat-sub">Enterprise platforms</div>
+      </div>
+    </div>
+    <div class="ai-badge">
+      <div class="ai-badge-dot"></div>
+      <span class="ai-badge-text">AI-Native Design Practitioner · Usability Gatekeeper</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">User Research</span>
+    <span class="marquee-item">Systems Thinking</span>
+    <span class="marquee-item">AI Interface Design</span>
+    <span class="marquee-item">Enterprise SaaS</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Strategic Design</span>
+    <span class="marquee-item">Outcome-Driven Design</span>
+    <span class="marquee-item">User Research</span>
+    <span class="marquee-item">Systems Thinking</span>
+    <span class="marquee-item">AI Interface Design</span>
+    <span class="marquee-item">Enterprise SaaS</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Strategic Design</span>
+    <span class="marquee-item">Outcome-Driven Design</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="work-section" id="work">
+  <div class="work-header reveal">
+    <div>
+      <div class="section-label">Selected Work</div>
+      <h2 class="section-headline">Case <em>Studies</em></h2>
+    </div>
+    <!-- <a href="https://bimacknyas.github.io/ManasRPortfolio_2020/" target="_blank" class="work-link-all">View all projects ↗</a> -->
+  </div>
+
+  <div class="case-studies">
+    <a href="./SourceFiles/6sense_SI_case_study.html" target="_blank" class="case-item reveal">
+      <div class="case-num">01</div>
+      <div class="case-info">
+        <div class="case-company">6sense · Sales Intelligence</div>
+        <div class="case-title">Sales Workbench</div>
+        <div class="case-desc">Redesigning how BDRs discover and engage prospects - A foundational JTBD research study and end-to-end UX redesign to increase adoption</div>
+      </div>
+      <div class="case-tags">
+        <span class="tag">Strategy & Research</span>
+        <span class="tag">Design Craft</span>
+        <span class="tag">Enterprise</span>
+        <span class="tag">Emerging Tech</span>
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-num">57%</div>
+        <div class="outcome-label">Adoption lift</div>
+      </div>
+    </a>
+
+    <a href="./SourceFiles/SI.svg" target="_blank" class="case-item reveal">
+      <div class="case-num">02</div>
+      <div class="case-info">
+        <div class="case-company">6sense · Sales Intelligence</div>
+        <div class="case-title">AI-Powered Sales Outreach</div>
+        <div class="case-desc">Designed the sales intelligence portal and stealth identity product UX — consolidating fragmented CRM data flows into a unified rep experience with AI-assisted lead scoring and intent signals.</div>
+      </div>
+      <div class="case-tags">
+        <span class="tag">AI Signals</span>
+        <span class="tag">CRM UX</span>
+        <span class="tag">B2B SaaS</span>
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-num">28%</div>
+        <div class="outcome-label">Pipeline conversion lift</div>
+      </div>
+    </a>
+
+    <a href="./SourceFiles/ZTNA.svg" target="_blank" class="case-item reveal">
+      <div class="case-num">03</div>
+      <div class="case-info">
+        <div class="case-company">McAfee · Cybersecurity</div>
+        <div class="case-title">Zero Trust Network Access (ZTNA)</div>
+        <div class="case-desc">Redesigned the enterprise security management console from the ground up — unifying threat visibility, policy configuration, and analyst workflows across a complex multi-tenant architecture.</div>
+      </div>
+      <div class="case-tags">
+        <span class="tag">Data Viz</span>
+        <span class="tag">Information Architecture</span>
+        <span class="tag">Mobile + Web</span>
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-num">70%</div>
+        <div class="outcome-label">Task completion lift</div>
+      </div>
+    </a>
+
+    
+  </div>
+</div>
+
+<!-- AI EXPERTISE -->
+<div class="ai-section" id="ai">
+  <div class="reveal">
+    <div class="section-label">AI Design Practice</div>
+    <h2 class="section-headline">Designing for<br><em>Artificial Intelligence</em></h2>
+    <p style="font-size:15px;color:var(--white-40);max-width:560px;margin-top:16px;line-height:1.8;">AI systems demand a new UX grammar. I bridge the gap between ML capability and human understanding — making models explainable, trustworthy, and genuinely useful at enterprise scale.</p>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-card reveal">
+      <div class="ai-card-icon">⚡</div>
+      <div class="ai-card-title">LLM Interface Design</div>
+      <div class="ai-card-desc">Designing conversational AI experiences that build user trust through transparent reasoning, calibrated confidence displays, and graceful failure states.</div>
+      <ul class="ai-card-list">
+        <li>Prompt UX & Conversation Flow</li>
+        <li>Explainability & AI Transparency</li>
+        <li>Hallucination Mitigation Patterns</li>
+        <li>Human-in-the-Loop Workflows</li>
+      </ul>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-icon">◎</div>
+      <div class="ai-card-title">AI-Augmented Analytics</div>
+      <div class="ai-card-desc">Translating complex model outputs — predictions, anomaly scores, confidence intervals — into intuitive dashboards that enable faster, better decisions.</div>
+      <ul class="ai-card-list">
+        <li>Predictive Signal Visualization</li>
+        <li>Sensemaking Frameworks</li>
+        <li>Contextual AI Recommendations</li>
+        <li>Analyst Cognitive Load Reduction</li>
+      </ul>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-icon">△</div>
+      <div class="ai-card-title">AI Design Systems</div>
+      <div class="ai-card-desc">Building scalable component libraries and patterns purpose-built for AI product surfaces — co-pilot sidebars, inline suggestions, uncertainty indicators, and feedback loops.</div>
+      <ul class="ai-card-list">
+        <li>AI Component Libraries</li>
+        <li>Co-pilot UX Patterns</li>
+        <li>Feedback & RLHF UX</li>
+        <li>Multi-modal Interface Patterns</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="exp-section" id="experience">
+  <div class="reveal">
+    <div class="section-label">Career History</div>
+    <h2 class="section-headline">12 Years of<br><em>Practice</em></h2>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-sidebar reveal">
+      <div class="exp-sidebar-label">Companies</div>
+      <div class="exp-logos">
+        <div class="exp-logo-item active">
+          <div class="exp-logo-dot"></div>6sense
+        </div>
+        <div class="exp-logo-item">
+          <div class="exp-logo-dot"></div>McAfee
+        </div>
+        <div class="exp-logo-item">
+          <div class="exp-logo-dot"></div>Honeywell
+        </div>
+        <div class="exp-logo-item">
+          <div class="exp-logo-dot"></div>Unisys
+        </div>
+        <div class="exp-logo-item">
+          <div class="exp-logo-dot"></div>Infosys
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-timeline">
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-period">Nov 2022 — Present</span>
+          <span class="exp-type">Full-time</span>
+        </div>
+        <div class="exp-role">Staff Product Designer</div>
+        <div class="exp-company">6sense · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Owning end-to-end product design for the Sales App — from discovery through shipped v2.0, serving 200K+ enterprise seats.</li>
+          <li>Establishing the design system governance model and component contribution process across 4 product pods.</li>
+          <li>Partnering with data science to define UX patterns for AI intent scoring and predictive account signals in the Revenue AI platform.</li>
+          <li>Led design sprints with stakeholders — translating complex compliance requirements into intuitive policy workflows.</li>
+        </ul>
+        <div class="exp-outcome-chip">↑ 62% task completion · 40% support ticket reduction</div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-period">Aug 2020 — Oct 2022</span>
+          <span class="exp-type">Full-time</span>
+        </div>
+        <div class="exp-role">Senior UX Designer</div>
+        <div class="exp-company">McAfee · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Designed the AI-powered threat intelligence dashboard for SOC analysts — reducing mean time to respond (MTTR) by 40%.</li>
+          <li>Created the McAfee enterprise design system (Spectrum) — adopted across 6 product lines, reducing UI inconsistencies by 70%.</li>
+          <li>Conducted 80+ user interviews with security analysts globally to inform information hierarchy and alert triage workflows.</li>
+        </ul>
+        <div class="exp-outcome-chip">↑ 40% MTTR reduction </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-period">Jul 2018 — Jul 2020</span>
+          <span class="exp-type">Full-time</span>
+        </div>
+        <div class="exp-role">UX Design Specialist</div>
+        <div class="exp-company">Honeywell · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Led UX for Honeywell's Connected platform — IoT sensor dashboards used in 300+ industrial facilities globally.</li>
+          <li>Designed an end-to-end HOS Web and mobile application for fleet operators — a regulatory compliance and monitoring tool with 50K+ active users.</li>
+          <li>Delivered responsive design systems and interactive prototypes for cross-platform mobile + web experiences.</li>
+        </ul>
+        <div class="exp-outcome-chip">3× faster onboarding · 50K+ active users</div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="skills-section" id="skills">
+  <div class="reveal">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-headline">The <em>Full Stack</em><br>of Design</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Strategy & Research</div>
+      <ul class="skill-list">
+        <li>UX Research & Mixed Methods</li>
+        <li>Stakeholder Workshops</li>
+        <li>Jobs-to-be-Done Framework</li>
+        <li>Competitive Analysis</li>
+        <li>User Journey Mapping</li>
+        <li>Heuristic Evaluation</li>
+        <li>Usability Testing & SUS</li>
+        <li>Design Ops & Governance</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Design Craft</div>
+      <ul class="skill-list">
+        <li>Information Architecture</li>
+        <li>Interaction Design</li>
+        <li>Visual Design Systems</li>
+        <li>Responsive & Adaptive Design</li>
+        <li>Motion & Micro-interactions</li>
+        <li>Accessibility (WCAG 2.1 AA)</li>
+        <li>Design Tokens & Theming</li>
+        <li>Rapid Prototyping</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">AI & Emerging Tech</div>
+      <ul class="skill-list">
+        <li>LLM Interface Design</li>
+        <li>Conversational UX</li>
+        <li>AI Explainability Patterns</li>
+        <li>Co-pilot UX Design</li>
+        <li>Predictive Analytics UX</li>
+        <li>Human-in-the-Loop Design</li>
+        <li>Multi-modal Interfaces</li>
+        <li>Generative AI Workflows</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Tools & Engineering</div>
+      <ul class="skill-list">
+        <li>Figma (Advanced)</li>
+        <li>FigJam · Miro</li>
+        <li>Framer · ProtoPie</li>
+        <li>Storybook · Zeroheight</li>
+        <li>HTML · CSS · JavaScript</li>
+        <li>React (component literacy)</li>
+        <li>Amplitude · Mixpanel</li>
+        <li>Maze · UserTesting</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy-section" id="philosophy">
+  <div class="reveal">
+    <div class="section-label">Design Philosophy</div>
+    <div class="philosophy-quote">
+      Design is the reduction of complexity into calm — not the decoration of confusion.
+    </div>
+  </div>
+  <div class="philosophy-right reveal">
+    <ul class="philosophy-principles">
+      <li class="principle-item">
+        <span class="principle-num">01</span>
+        <div class="principle-text">
+          <strong>Outcomes over Outputs</strong>
+          I measure success by user behavior change and business impact — not by deliverables shipped or screens designed.
+        </div>
+      </li>
+      <li class="principle-item">
+        <span class="principle-num">02</span>
+        <div class="principle-text">
+          <strong>Research First, Always</strong>
+          Every design decision is a hypothesis. Observation, not assumption, is the only valid source of truth.
+        </div>
+      </li>
+      <li class="principle-item">
+        <span class="principle-num">03</span>
+        <div class="principle-text">
+          <strong>Systems Over Screens</strong>
+          Great products emerge from coherent systems — not collections of beautiful but disconnected screens.
+        </div>
+      </li>
+      <li class="principle-item">
+        <span class="principle-num">04</span>
+        <div class="principle-text">
+          <strong>AI as Collaborator</strong>
+          I design AI not as a feature, but as a thinking partner — making its reasoning visible, its limits honest, its help genuine.
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="reveal">
+    <div class="section-label" style="justify-content:center;">Open for opportunities</div>
+    <h2 class="contact-headline">Let's build<br><em>something</em><br>meaningful.</h2>
+    <p class="contact-sub">Available for Lead / Staff Product Designer roles, strategic UX consulting, and AI product design partnerships — globally or remote.</p>
+    <a href="mailto:mrpradhanonline@gmail.com" class="contact-email">mrpradhanonline@gmail.com</a>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/mrpradhan/" target="_blank">LinkedIn ↗</a>
+      <a href="http://github.com/bimacknyas" target="_blank">GitHub ↗</a>
+      <a href="https://codepen.io/mrmrp/" target="_blank">CodePen ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 Manas Ranjan Pradhan · <span>Staff Product Designer</span> · Bangalore, India</p>
+  <p>Designed & built with <span>intentionality</span></p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px)`;
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.transform = `translate(${ringX - 18}px, ${ringY - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .case-item, .stat-item, .ai-card, .principle-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stagger children of case-studies
+  document.querySelectorAll('.case-studies .reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.08}s`;
+  });
+</script>
+</body>
+</html>
